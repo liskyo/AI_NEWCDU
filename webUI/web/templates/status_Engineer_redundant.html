@@ -1,0 +1,3202 @@
+{% extends "base.html" %} {% block title %} Status {% endblock %} {% block
+    styles %}
+    
+    <style type="text/css">
+        .box {
+            border: 2px solid #69b4ff;
+    
+            border-radius: 4px;
+            margin: 2em 0;
+            padding: 20px;
+            position: relative;
+        }
+    
+        .box::before {
+            background-color: #fff;
+            color: #69b4ff;
+            content: attr(data-before);
+            font-weight: bold;
+            left: 1em;
+            padding: 0 0.5em;
+            position: absolute;
+            top: -1em;
+        }
+    
+        .cduStatus,
+        .pumpValve,
+        .evStatus,
+        .deviceStatus,
+        .sensor,
+        .communication,
+        .brokenStatus,
+        .rack_setting,
+        .showcase,
+        .switch_version {
+            border: 2px solid #008000;
+    
+            border-radius: 10px;
+            margin: 2em 0;
+            padding: 20px;
+            position: relative;
+        }
+    
+        .cduStatus::before,
+        .pumpValve::before,
+        .evStatus::before,
+        .deviceStatus::before,
+        .sensor::before,
+        .communication::before,
+        .brokenStatus::before,
+        .rack_setting::before,
+        .showcase::before,
+        .switch_version::before {
+            background-color: #fff;
+            color: #000000;
+            content: attr(data-before);
+            font-weight: bold;
+            left: 1em;
+            padding: 0 0.5em;
+            position: absolute;
+            top: -1em;
+        }
+    
+        .tdCenterAlign {
+            text-align: center;
+        }
+    
+        .navbar .navbar-nav .nav-link:hover {
+            background-color: #778899;
+            color: #fff;
+        }
+    
+        .nav-status {
+            background-color: #008000 !important;
+            color: #fff !important;
+        }
+    
+        .detail {
+            display: flex;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+    
+        .image {
+            position: relative;
+        }
+    
+        .show_img {
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 16px;
+            border: 3px solid rgb(0, 100, 0);
+            padding: 2px 0.5px;
+            width: 110px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+    
+        .show_img_white_out {
+            border-radius: 4px;
+            font-size: 12px;
+            border: 3px solid rgb(0, 100, 0);
+            padding: 2px 0.5px;
+            width: 85px;
+            text-align: center;
+            position: absolute;
+            background-color: white;
+            top: 0;
+            left: 0;
+        }
+    
+        .show_img_white_out_2 {
+            border-radius: 4px;
+            font-size: 12px;
+            border: 3px solid rgb(0, 100, 0);
+            padding: 2px 0.5px;
+            width: 65px;
+            text-align: center;
+            position: absolute;
+            background-color: white;
+            top: 0;
+            left: 0;
+        }
+    
+        .show_img_white_out_3 {
+            border-radius: 4px;
+            font-size: 12px;
+            border: 3px solid rgb(0, 100, 0);
+            padding: 2px 0.5px;
+            width: 150px;
+            text-align: center;
+            position: absolute;
+            background-color: white;
+            top: 0;
+            left: 0;
+        }
+    
+        .block_img {
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 16px;
+            border: 3px solid rgb(0, 100, 0);
+            padding: 2px 0.5px;
+            width: 75px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    
+        .data_3 {
+            top: 380px;
+            left: 183px;
+        }
+    
+        .data_1 {
+            top: 380px;
+            left: 300px;
+        }
+    
+        .data_35 {
+            top: 440px;
+            left: 300px;
+        }
+    
+        .data_white6 {
+            position: absolute;
+            top: 435px;
+            left: 321px;
+            border: none;
+        }
+    
+        .data_white8 {
+            position: absolute;
+            top: 433px;
+            left: 320px;
+            border: none;
+        }
+    
+        .data_7 {
+            top: 440px;
+            left: 487px;
+        }
+    
+        .data_34 {
+            top: 440px;
+            left: 630px;
+        }
+    
+        .data_13 {
+            top: 100px;
+            left: 430px;
+        }
+    
+        .data_14 {
+            top: 100px;
+            left: 555px;
+        }
+    
+        .small_font {
+            font-size: 10px;
+        }
+    
+        .data_15 {
+            top: 100px;
+            left: 680px;
+        }
+    
+        .data_8 {
+            top: 400px;
+            left: 860px;
+        }
+    
+        .data_18 {
+            top: 400px;
+            left: 975px;
+        }
+    
+        .data_5 {
+            top: 200px;
+            left: 200px;
+        }
+    
+        .data_9 {
+            top: 400px;
+            left: 1170px;
+        }
+    
+        .data_19 {
+            top: 400px;
+            left: 1288px;
+        }
+    
+        .data_20 {
+            top: 400px;
+            left: 1405px;
+        }
+    
+        .data_23 {
+            top: 810px;
+            left: 175px;
+        }
+    
+        .data_22 {
+            top: 810px;
+            left: 295px;
+        }
+    
+        .data_31 {
+            top: 880px;
+            left: 535px;
+        }
+    
+        .data_32 {
+            top: 580px;
+            left: 535px;
+        }
+    
+        .data_10 {
+            top: 220px;
+            left: 488px;
+            display: none;
+        }
+    
+        .data_6 {
+            top: 810px;
+            left: 1160px;
+        }
+    
+        .data_11 {
+            top: 810px;
+            left: 1275px;
+        }
+    
+        .data_12 {
+            top: 810px;
+            left: 1390px;
+        }
+    
+        .data_24 {
+            top: 880px;
+            left: 445px;
+        }
+    
+        .data_27 {
+            top: 880px;
+            left: 663px;
+        }
+    
+        .data_25 {
+            top: 580px;
+            left: 450px;
+        }
+    
+        .data_26 {
+            top: 580px;
+            left: 663px;
+        }
+    
+        .data_28 {
+            top: 133px;
+            left: 488px;
+            display: none;
+        }
+    
+        .data_29 {
+            top: 280px;
+            left: 1300px;
+            display: none;
+        }
+    
+        .data_30 {
+            top: 720px;
+            left: 1301px;
+            display: none;
+        }
+    
+        .data_21 {
+            display: none;
+        }
+    
+        .data_33 {
+            top: 150px;
+            left: 200px;
+        }
+    
+        .unit_block {
+            font-size: 16px;
+            font-weight: 500;
+            position: absolute;
+            left: 1450px;
+            top: 24px;
+            padding: 5px;
+            display: flex;
+            text-align: center;
+            width: 230px;
+        }
+    
+        .data_white1 {
+            position: absolute;
+            top: 406px;
+            left: 500px;
+            border: none;
+        }
+    
+        .data_white2 {
+            position: absolute;
+            top: 415px;
+            left: 610px;
+            border: none;
+        }
+    
+        .data_white3 {
+            position: absolute;
+            top: 205px;
+            left: 135px;
+            border: none;
+        }
+    
+        .data_white4 {
+            position: absolute;
+            top: 362px;
+            left: 1398px;
+            border: none;
+        }
+    
+        .data_white5 {
+            position: absolute;
+            top: 777px;
+            left: 1278px;
+            border: none;
+        }
+    
+        .data_white6 {
+            position: absolute;
+            top: 362px;
+            left: 1180px;
+            border: none;
+        }
+    
+        .data_white7 {
+            position: absolute;
+            top: 777px;
+            left: 1180px;
+            border: none;
+        }
+    
+        .dropdown2 {
+            font-size: 18px;
+            border-color: #003600;
+            border-radius: 10px;
+            padding: 5px;
+        }
+    
+        .set_mode {
+            font-size: 16px;
+            font-weight: 500;
+            position: absolute;
+            left: 24px;
+            top: 24px;
+            padding: 5px;
+        }
+    
+        .hidden {
+            display: none;
+        }
+    
+        .row_sticky {
+            position: sticky;
+            top: 90px;
+            background-color: white;
+            padding: 10px 0px;
+            z-index: 99;
+        }
+    
+        .machine_img_jr {
+            width: 1700px;
+        }
+    
+        .machine_img_sr {
+            width: 1700px;
+        }
+    
+        .title.collapsed .content {
+            display: none;
+        }
+    
+        .data-before-trigger {
+            position: absolute;
+            top: -14px;
+            left: 21px;
+            width: 355px;
+            height: 22px;
+            cursor: pointer;
+        }
+    
+        .title::before {
+            content: attr(data-before);
+        }
+    
+        .status_light {
+            background-color: black;
+            border-radius: 10px;
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            top: 50%;
+            left: 40%;
+            transform: translateY(-50%);
+        }
+    
+        .clickable-div {
+            cursor: default;
+        }
+    
+        .input_container {
+            position: absolute;
+            top: 30px;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease, top 0.3s ease;
+            pointer-events: none;
+            background-color: #fff;
+            padding: 10px;
+            display: flex;
+        }
+    
+        .input_container.active {
+            top: -70px;
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 100;
+        }
+    
+        .hide {
+            height: 0;
+            visibility: hidden;
+        }
+    
+        .floating-input {
+            background-color: #fff;
+            padding: 5px;
+            font-size: 16px;
+        }
+    
+        .machine_img_1366_jr {
+            width: 1100px;
+        }
+    
+        .machine_img_1366_sr {
+            width: 1100px;
+        }
+    
+        .machine_img_1497_jr {
+            width: 1300px;
+        }
+    
+        .machine_img_1497_sr {
+            width: 1300px;
+        }
+    
+        .show_img_1497 {
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            border: 2px solid rgb(0, 100, 0);
+            padding: 2px 0.5px;
+            width: 80px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+    
+        .unit_block_1497 {
+            font-size: 14px;
+            font-weight: 500;
+            position: absolute;
+            left: 1050px;
+            top: 24px;
+            padding: 5px;
+            display: flex;
+            text-align: center;
+            width: 230px;
+        }
+    
+        .data_white_1497 {
+            position: absolute;
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            padding: 2px 0.5px;
+            width: 70px;
+            text-align: center;
+            position: absolute;
+            background-color: white;
+            top: 0;
+            left: 0;
+        }
+    
+        .show_img_1366 {
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 10px;
+            border: 2px solid rgb(0, 100, 0);
+            padding: 2px 0.5px;
+            width: 80px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+    
+        .block_img_1366 {
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 10px;
+            border: 2px solid rgb(0, 100, 0);
+            padding: 2px 0.5px;
+            width: 55px;
+            text-align: center;
+            position: absolute;
+        }
+    
+        .unit_block_1366 {
+            font-size: 12px;
+            font-weight: 500;
+            position: absolute;
+            left: 870px;
+            top: 24px;
+            padding: 5px;
+            display: flex;
+            text-align: center;
+            width: 200px;
+        }
+    
+        .data_1366_3 {
+            top: 245px;
+            left: 100px;
+        }
+    
+        .data_1366_1 {
+            top: 245px;
+            left: 182px;
+        }
+    
+        .data_1366_35 {
+            top: 282px;
+            left: 182px;
+        }
+    
+        .data_1366_white6 {
+            top: 285px;
+            left: 212px;
+            border: none;
+        }
+    
+        .data_1366_13 {
+            top: 60px;
+            left: 265px;
+        }
+    
+        .data_1366_14 {
+            top: 60px;
+            left: 353px;
+        }
+    
+        .data_1366_15 {
+            top: 60px;
+            left: 440px;
+        }
+    
+        .data_1366_7 {
+            top: 290px;
+            left: 313px;
+        }
+    
+        .data_1366_34 {
+            top: 290px;
+            left: 405px;
+        }
+    
+        .data_1366_white2 {
+            position: absolute;
+            top: 268px;
+            left: 385px;
+            border: none;
+        }
+    
+        .data_1366_8 {
+            top: 260px;
+            left: 542px;
+        }
+    
+        .data_1366_18 {
+            top: 260px;
+            left: 625px;
+        }
+    
+        .data_1366_9 {
+            top: 260px;
+            left: 740px;
+        }
+    
+        .data_1366_white7 {
+            position: absolute;
+            top: 235px;
+            left: 769px;
+            border: none;
+        }
+    
+        .data_1366_19 {
+            top: 260px;
+            left: 825px;
+        }
+    
+        .data_1366_20 {
+            top: 260px;
+            left: 910px;
+        }
+    
+        .data_1366_white4 {
+            position: absolute;
+            top: 235px;
+            left: 910px;
+            border: none;
+        }
+    
+        .data_1366_23 {
+            top: 525px;
+            left: 105px;
+        }
+    
+        .data_1366_22 {
+            top: 525px;
+            left: 190px;
+        }
+    
+        .data_1366_25 {
+            top: 370px;
+            left: 282px;
+        }
+    
+        .data_1366_27 {
+            top: 570px;
+            left: 428px;
+        }
+    
+        .data_1366_26 {
+            top: 370px;
+            left: 428px;
+        }
+    
+        .data_1366_24 {
+            top: 570px;
+            left: 282px;
+        }
+    
+        .data_1366_31 {
+            top: 570px;
+            left: 343px;
+        }
+    
+        .data_1366_32 {
+            top: 370px;
+            left: 343px;
+        }
+    
+        .data_1366_6 {
+            top: 525px;
+            left: 738px;
+        }
+    
+        .data_1366_white8 {
+            position: absolute;
+            top: 500px;
+            left: 769px;
+            border: none;
+        }
+    
+        .data_1366_11 {
+            top: 525px;
+            left: 822px;
+        }
+    
+        .data_1366_white5 {
+            position: absolute;
+            top: 500px;
+            left: 832px;
+            border: none;
+        }
+    
+        .data_1366_12 {
+            top: 525px;
+            left: 905px;
+        }
+    
+        .small_font_1366 {
+            font-size: 8px;
+        }
+    
+        .show_img_white_out_2_1366 {
+            border-radius: 4px;
+            font-size: 8px;
+            border: 3px solid rgb(0, 100, 0);
+            padding: 2px 0.5px;
+            width: 40px;
+            text-align: center;
+            position: absolute;
+            background-color: white;
+            top: 0;
+            left: 0;
+        }
+    
+        .show_img_white_out_3_1366 {
+            border-radius: 4px;
+            font-size: 8px;
+    
+            padding: 2px 0.5px;
+            width: 120px;
+            text-align: center;
+            position: absolute;
+            background-color: white;
+        }
+    
+        .data_1366_white3 {
+            position: absolute;
+            top: 140px;
+            left: 88px;
+            border: none;
+        }
+    
+        .data_1366_5 {
+            top: 136px;
+            left: 130px;
+        }
+    
+        .data_1366_33 {
+            top: 96px;
+            left: 130px;
+        }
+    
+        .show_img_white_out_1366 {
+            border-radius: 4px;
+            font-size: 8px;
+    
+            padding: 2px 0.5px;
+            width: 45px;
+            text-align: center;
+            position: absolute;
+            background-color: white;
+            position: absolute;
+        }
+    
+        .data_1366_white1 {
+            position: absolute;
+            top: 261px;
+            left: 330px;
+            border: none;
+        }
+    
+        .data_1366_29,
+        .data_1366_21,
+        .data_1366_10,
+        .data_1366_30 {
+            display: none;
+        }
+    
+        .scrollable-image-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+    
+        .scrollable-image-container .image {
+            max-width: 100%;
+            width: auto;
+            height: auto;
+        }
+    
+        td {
+            text-align: center;
+        }
+    </style>
+    {% endblock %} {% block content %}
+    <div class="container-fluid" style="margin-top: 100px; margin-bottom: 60px">
+        <div class="pic_1920 detail scrollable-image-container">
+            <div class="image">
+                <div style="width: 1700px; height: 957px">
+                    <img class="machine_img_jr" src="../static/images/machine_jr.png" alt="設備" loading="eager" />
+                    <img class="machine_img_sr" src="../static/images/machine_sr.png" alt="設備" loading="eager" />
+                </div>
+                <div class="unit_block">
+                    <table class="table table-striped table-hover">
+                        <tbody>
+                            <tr>
+                                <td scope="row">CDU Status:</td>
+                                <td scope="row" style="position: relative" class="light_box">
+                                    <div class="status_light" id="status_light"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Operation Mode:</td>
+                                <td id="current_mode" class="current_mode" scope="row"></td>
+                            </tr>
+                            <tr>
+                                <td scope="row">PC Box:</td>
+                                <td>Redundant</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="data_1 show_img clickable-div">
+                    <div class="prsr_clntSply"></div>
+                    <div class="unit unit_pressure"></div>
+                </div>
+    
+                <div class="data_3 show_img clickable-div">
+                    <div class="temp_clntSply"></div>
+                    <div class="unit unit_temp"></div>
+                </div>
+                <div class="data_5 show_img">
+                    <div class="temp_ambient"></div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div class="data_6 show_img">
+                    <div class="prsr_wtrOut"></div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_7 show_img">
+                    <div class="prsr_flt1Out"></div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_8 show_img">
+                    <div class="prsr_fltIn"></div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_9 show_img">
+                    <div class="prsr_wtrIn"></div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_10 show_img">
+                    <div class="prsr_flt5Out"></div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_11 show_img">
+                    <div class="temp_waterOut"></div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div class="data_12 show_img">
+                    <div class="flow_wtr"></div>
+                    <div class="unit_flow"></div>
+                </div>
+                <div class="data_13 show_img">
+                    <div class="tbd"></div>
+                    <div>NRU</div>
+                </div>
+                <div class="data_14 show_img">
+                    <div class="cdct"></div>
+                    <div class="small_font">µS/cm</div>
+                </div>
+                <div class="data_15 show_img">
+                    <div class="pH"></div>
+                    <div>pH</div>
+                </div>
+                <div class="data_18 show_img">
+                    <div class="flow_clnt"></div>
+                    <div class="unit_flow"></div>
+                </div>
+                <div class="data_19 show_img">
+                    <div class="WaterPV"></div>
+                    <div>%</div>
+                </div>
+                <div class="data_20 show_img">
+                    <div class="temp_waterIn"></div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div class="data_21 show_img">
+                    <div class="prsr_flt4Out"></div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_22 show_img">
+                    <div class="prsr_clntRtn"></div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_23 show_img">
+                    <div class="temp_clntRtn"></div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div class="data_24 block_img EV2"></div>
+                <div class="data_25 block_img EV4"></div>
+                <div class="data_26 block_img EV3"></div>
+                <div class="data_27 block_img EV1"></div>
+                <div class="data_29 show_img">
+                    <div class="prsr_wtrIn"></div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_30 show_img">
+                    <div class="prsr_wtrOut"></div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_31 show_img clickable-div">
+                    <div class="inv1_freq"></div>
+                    <div>%</div>
+                    <div class="input_container manual_set">
+                        <input type="text" class="floating-input" placeholder="0 or 25~100" />
+                        <span> &nbsp;</span><button class="btn btn-outline-success">OK</button>
+                    </div>
+                </div>
+                <div class="data_32 show_img clickable-div">
+                    <div class="inv2_freq"></div>
+                    <div>%</div>
+                    <div class="input_container manual_set">
+                        <input type="text" class="floating-input" placeholder="0 or 25~100" />
+                        <span> &nbsp;</span><button class="btn btn-outline-success">OK</button>
+                    </div>
+                </div>
+                <div class="data_33 show_img">
+                    <div class="dewPt"></div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div class="data_34 show_img">
+                    <div class="prsr_fltmax"></div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_35 show_img">
+                    <div class="prsr_diff">Dp</div>
+                    <div class="unit_pressure"></div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="pic_1497 detail scrollable-image-container">
+            <div class="image">
+                <div>
+                    <img class="machine_img_1497_sr" src="../static/images/machine_sr.png" alt="設備" loading="eager" />
+                    <img class="machine_img_1497_jr" src="../static/images/machine_jr.png" alt="設備" loading="eager" />
+                </div>
+                <div style="top: 290px; left: 230px" class="show_img_1497 clickable-div">
+                    <div class="prsr_clntSply">P1</div>
+                    <div class="unit unit_pressure"></div>
+                </div>
+                <div style="top: 335px; left: 230px" class="show_img_1497">
+                    <div class="prsr_diff">Dp</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div style="top: 290px; left: 140px" class="show_img_1497 clickable-div">
+                    <div class="temp_clntSply">T1</div>
+                    <div class="unit unit_temp"></div>
+                </div>
+    
+                <div style="top: 155px; left: 155px" class="show_img_1497">
+                    <div class="temp_ambient">T a</div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div style="top: 117px; left: 155px" class="show_img_1497">
+                    <div class="dewPt">DewPt</div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div style="top: 70px; left: 340px" class="show_img_1497">
+                    <div class="tbd">Tur</div>
+                    <div>NRU</div>
+                </div>
+                <div style="top: 70px; left: 430px" class="show_img_1497">
+                    <div class="cdct">CON</div>
+                    <div style="font-size: 8px">µS/cm</div>
+                </div>
+                <div style="top: 70px; left: 520px" class="show_img_1497">
+                    <div class="pH">pH</div>
+                    <div>pH</div>
+                </div>
+                <!-- <div style="top: 310px; left: 383px" class="data_white_1497">
+                    P4~8 Max
+                </div> -->
+                <div style="top: 345px; left: 380px" class="show_img_1497">
+                    <div class="prsr_flt1Out">P4-8 MAX</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <!-- <div style="top: 318px; left: 463px; width: 130px; font-size: 10px" class="data_white_1497">
+                    Filter (P3-P4~P8 Max)
+                </div> -->
+                <div style="top: 345px; left: 484px" class="show_img_1497">
+                    <div class="prsr_fltmax">Filter</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div style="top: 310px; left: 660px" class="data_1366_8 show_img_1497">
+                    <div class="prsr_fltIn">P3</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div style="top: 310px; left: 750px" class="show_img_1497">
+                    <div class="flow_clnt">F1</div>
+                    <div class="unit_flow"></div>
+                </div>
+    
+                <div style="top: 310px; left: 900px" class="show_img_1497">
+                    <div class="temp_waterIn">T4</div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div style="top: 310px; left: 1067px" class="show_img_1497">
+                    <div class="prsr_wtrIn">P10</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div style="top: 310px; left: 984px" class="show_img_1497">
+                    <div class="WaterPV">PV1</div>
+                    <div>%</div>
+                </div>
+                <div style="top: 500px; left: 130px" class="show_img_1497">
+                    <div class="temp_clntRtn">T2</div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div style="top: 500px; left: 225px" class="show_img_1497">
+                    <div class="prsr_clntRtn">P2</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div style="top: 450px; left: 320px" class="show_img_1497 EV4">
+                    EV4
+                </div>
+                <div style="top: 450px; left: 410px" class="pump2 show_img_1497 clickable-div">
+                    <div class="inv2_freq">Pump2</div>
+                    <div>%</div>
+                    <div class="input_container manual_set">
+                        <input type="text" class="floating-input" placeholder="0 or 25~100" />
+                        <span> &nbsp;</span><button class="btn btn-outline-success">OK</button>
+                    </div>
+                </div>
+                <div style="top: 450px; left: 500px" class="show_img_1497 EV3">
+                    EV3
+                </div>
+                <div style="top: 680px; left: 320px" class="show_img_1497 EV2">
+                    EV2
+                </div>
+                <div style="top: 680px; left: 410px" class="pump1 show_img_1497 clickable-div">
+                    <div class="inv1_freq">Pump1</div>
+                    <div>%</div>
+                    <div class="input_container manual_set">
+                        <input type="text" class="floating-input" placeholder="0 or 25~100" />
+                        <span> &nbsp;</span><button class="btn btn-outline-success">OK</button>
+                    </div>
+                </div>
+                <div style="top: 680px; left: 500px" class="show_img_1497 EV1">
+                    EV1
+                </div>
+    
+                <!-- <div style="top: 590px; left: 900px" class="data_white_1497">
+                    P11
+                </div> -->
+                <div style="top: 620px; left: 890px" class="show_img_1497">
+                    <div class="prsr_wtrOut">P11</div>
+                    <div class="unit_pressure"></div>
+                </div>
+    
+                <!-- <div style="top: 590px; left: 975px" class="data_white_1497">
+                    T5
+                </div> -->
+                <div style="top: 620px; left: 975px" class="show_img_1497">
+                    <div class="temp_waterOut">T5</div>
+                    <div class="unit_temp"></div>
+                </div>
+    
+                <div style="top: 620px; left: 1060px" class="show_img_1497">
+                    <div class="flow_wtr">F2</div>
+                    <div class="unit_flow"></div>
+                </div>
+    
+                <div class="unit_block_1497">
+                    <table class="table table-striped table-hover">
+                        <tbody>
+                            <tr>
+                                <td scope="row">CDU Status:</td>
+                                <td scope="row" style="position: relative" class="light_box">
+                                    <div class="status_light" id="status_light"></div>
+                                </td>
+                            </tr>
+    
+                            <tr>
+                                <td scope="row">Operation Mode:</td>
+                                <td id="current_mode" class="current_mode" scope="row"></td>
+                            </tr>
+                            <tr>
+                                <td scope="row">PC Box:</td>
+                                <td>Redundant</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    
+        <div class="pic_1366 detail scrollable-image-container">
+            <div class="image">
+                <div>
+                    <img class="machine_img_1366_sr" src="../static/images/machine_sr.png" alt="設備" loading="eager" />
+                    <img class="machine_img_1366_jr" src="../static/images/machine_jr.png" alt="設備" loading="eager" />
+                </div>
+                <div class="data_1366_1 show_img_1366 clickable-div">
+                    <div class="prsr_clntSply">P1</div>
+                    <div class="unit unit_pressure"></div>
+                </div>
+    
+                <div class="data_1366_3 show_img_1366 clickable-div">
+                    <div class="temp_clntSply">T1</div>
+                    <div class="unit unit_temp"></div>
+                </div>
+    
+                <div class="data_1366_5 show_img_1366">
+                    <div class="temp_ambient">T3</div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div class="data_1366_6 show_img_1366">
+                    <div class="prsr_wtrOut">P6</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_1366_7 show_img_1366">
+                    <div class="prsr_flt1Out">P4</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_1366_8 show_img_1366">
+                    <div class="prsr_fltIn">P3</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_1366_9 show_img_1366">
+                    <div class="prsr_wtrIn">P5</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_1366_10 show_img_1366">
+                    <div class="prsr_flt5Out">P8</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_1366_11 show_img_1366">
+                    <div class="temp_waterOut">T5</div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div class="data_1366_12 show_img_1366">
+                    <div class="flow_wtr">F2</div>
+                    <div class="unit_flow"></div>
+                </div>
+                <div class="data_1366_13 show_img_1366">
+                    <div class="tbd">Tur</div>
+                    <div>NRU</div>
+                </div>
+                <div class="data_1366_14 show_img_1366">
+                    <div class="cdct">CON</div>
+                    <div class="small_font_1366">µS/cm</div>
+                </div>
+                <div class="data_1366_15 show_img_1366">
+                    <div class="pH">pH</div>
+                    <div>pH</div>
+                </div>
+                <div class="data_1366_18 show_img_1366">
+                    <div class="flow_clnt">F1</div>
+                    <div class="unit_flow"></div>
+                </div>
+                <div class="data_1366_19 show_img_1366">
+                    <div class="WaterPV">PV1</div>
+                    <div>%</div>
+                </div>
+                <div class="data_1366_20 show_img_1366">
+                    <div class="temp_waterIn">T4</div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div class="data_1366_21 show_img_1366">
+                    <div class="prsr_flt4Out">P7</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_1366_22 show_img_1366">
+                    <div class="prsr_clntRtn">P2</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_1366_23 show_img_1366">
+                    <div class="temp_clntRtn">T2</div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div class="data_1366_24 block_img_1366 EV2">EV2</div>
+                <div class="data_1366_25 block_img_1366 EV4">EV4</div>
+                <div class="data_1366_26 block_img_1366 EV3">EV3</div>
+                <div class="data_1366_27 block_img_1366 EV1">EV1</div>
+                <div class="data_1366_29 show_img_1366">
+                    <div class="prsr_wtrIn">P10</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_1366_30 show_img_1366">
+                    <div class="prsr_wtrOut">P11</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="data_1366_31 show_img_1366 clickable-div">
+                    <div class="inv1_freq">Pump1</div>
+                    <div>%</div>
+                    <div class="input_container manual_set">
+                        <input type="text" class="floating-input" placeholder="0 or 25~100" />
+                        <span> &nbsp;</span><button class="btn btn-outline-success">OK</button>
+                    </div>
+                </div>
+                <div class="data_1366_32 show_img_1366 clickable-div">
+                    <div class="inv2_freq">Pump2</div>
+                    <div>%</div>
+                    <div class="input_container manual_set">
+                        <input type="text" class="floating-input" placeholder="0 or 25~100" />
+                        <span> &nbsp;</span><button class="btn btn-outline-success">OK</button>
+                    </div>
+                </div>
+                <div class="data_1366_33 show_img_1366">
+                    <div class="dewPt">DewPt</div>
+                    <div class="unit_temp"></div>
+                </div>
+                <div class="data_1366_34 show_img_1366">
+                    <div class="prsr_fltmax">Filter</div>
+                    <div class="unit_pressure"></div>
+                </div>
+                <div class="unit_block_1366">
+                    <table class="table table-striped table-hover">
+                        <tbody>
+                            <tr>
+                                <td scope="row">CDU Status:</td>
+                                <td scope="row" style="position: relative" class="light_box">
+                                    <div class="status_light" id="status_light"></div>
+                                </td>
+                            </tr>
+    
+                            <tr>
+                                <td scope="row">Operation Mode:</td>
+                                <td id="current_mode" class="current_mode" scope="row"></td>
+                            </tr>
+                            <tr>
+                                <td scope="row">PC Box:</td>
+                                <td>Redundant</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="data_1366_35 show_img_1366">
+                    <div class="prsr_diff">Dp</div>
+                    <div class="unit_pressure"></div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="sensor title" data-label="Sensor Value">
+            <div class="data-before-trigger"></div>
+            <div class="content">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr class="row_sticky">
+                            <th class="col-4 tdCenterAlign" scope="col">Sensor</th>
+                            <th class="col-3 tdCenterAlign">Status</th>
+                            <th class="col-3 tdCenterAlign">Value</th>
+                            <th class="col-2 tdCenterAlign">Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Supply Temperature (T1)
+                            </td>
+                            <td id="temp_clntSply_status" class="tdCenterAlign" scope="row" style="color: #f39c12">
+                                Alert Level
+                            </td>
+                            <td id="temp_clntSply" class="tdCenterAlign" scope="row"></td>
+                            <td class="unit_temp tdCenterAlign" scope="row"></td>
+                        </tr>
+    
+                        <tr id="t1sp_set">
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Supply Temperature (Spare) (T1 sp)
+                            </td>
+                            <td id="temp_clntSplySpr_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="temp_clntSplySpr" class="tdCenterAlign" scope="row"></td>
+                            <td class="tdCenterAlign unit_temp" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Return Temperature (T2)
+                            </td>
+                            <td id="temp_clntRtn_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="temp_clntRtn" class="tdCenterAlign" scope="row"></td>
+                            <td class="tdCenterAlign unit_temp" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Supply Pressure (P1)
+                            </td>
+                            <td id="prsr_clntSply_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="prsr_clntSply" class="tdCenterAlign" scope="row"></td>
+                            <td class="unit_pressure tdCenterAlign" scope="row"></td>
+                        </tr>
+                        <tr id="p1sp_set">
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Supply Pressure (Spare) (P1 sp)
+                            </td>
+                            <td id="prsr_clntSplySpr_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="prsr_clntSplySpr" scope="row"></td>
+                            <td class="unit_pressure" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Return Pressure (P2)
+                            </td>
+                            <td id="prsr_clntRtn_status" class="tdCenterAlign" scope="row">
+                                -
+                            </td>
+                            <td id="prsr_clntRtn" scope="row"></td>
+                            <td class="unit_pressure" scope="row"></td>
+                        </tr>
+                        <tr id="p2sp_set">
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Return Pressure (Spare) (P2 sp)
+                            </td>
+                            <td id="prsr_clntRtnSpr_status" class="tdCenterAlign" scope="row">
+                                -
+                            </td>
+                            <td id="prsr_clntRtnSpr" scope="row"></td>
+                            <td class="unit_pressure" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Differential Pressure (Pd)
+                            </td>
+                            <td class="tdCenterAlign" scope="row">-</td>
+                            <td id="prsr_diff" scope="row"></td>
+                            <td class="unit_pressure" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Flow Rate (F1)
+                            </td>
+                            <td id="clnt_flow_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="flow_clnt" scope="row"></td>
+                            <td class="unit_flow" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Facility Water Supply Temperature (T4)
+                            </td>
+                            <td id="temp_waterIn_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="temp_waterIn" scope="row"></td>
+                            <td class="unit_temp" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Facility Water Return Temperature (T5)
+                            </td>
+                            <td id="temp_waterOut_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="temp_waterOut" scope="row"></td>
+                            <td class="unit_temp" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Facility Water Supply Pressure (P10)
+                            </td>
+                            <td id="prsr_wtrIn_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="prsr_wtrIn" scope="row"></td>
+                            <td class="unit_pressure" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Facility Water Return Pressure (P11)
+                            </td>
+                            <td id="prsr_wtrOut_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="prsr_wtrOut" scope="row"></td>
+                            <td class="unit_pressure" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Facility Water Flow Rate (F2)
+                            </td>
+                            <td id="wtr_flow_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="flow_wtr" scope="row"></td>
+                            <td class="unit_flow" scope="row"></td>
+                        </tr>
+                        {% if (user == 'user') or (user == 'kiosk') %}
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Filter Differential Pressure
+                            </td>
+                            <td id="prsr_fltmax_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="prsr_fltmax" scope="row"></td>
+                            <td class="unit_pressure" class="unit_temp" scope="row"></td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Ambient Temperature (T a)
+                            </td>
+                            <td id="temp_ambient_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="temp_ambient" scope="row"></td>
+                            <td class="unit_temp" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Relative Humidity (RH)
+                            </td>
+                            <td id="relative_humid_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="rltHmd" scope="row"></td>
+                            <td scope="row">%</td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Dew Point Temperature (T Dp)
+                            </td>
+                            <td id="dew_point_temp_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="dewPt" scope="row"></td>
+                            <td class="unit_temp" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">pH (PH)</td>
+                            <td id="ph_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="pH" scope="row"></td>
+                            <td scope="row">pH</td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Conductivity (CON)
+                            </td>
+                            <td id="cndct_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="cdct" scope="row"></td>
+                            <td scope="row">µS/cm</td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Turbidity (Tur)
+                            </td>
+                            <td id="tbd_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="tbd" scope="row"></td>
+                            <td scope="row">NRU</td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Instant Power Consumption
+                            </td>
+                            <td id="power_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="power" scope="row"></td>
+                            <td scope="row">kW</td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">Heat Capacity</td>
+                            <td class="tdCenterAlign" scope="row">-</td>
+                            <td id="heat_capacity" scope="row"></td>
+                            <td scope="row">kW</td>
+                        </tr>
+                        {% if (user == 'admin') or (user == 'superuser') %}
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Average Current
+                            </td>
+                            <td id="AC_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="AC" scope="row"></td>
+                            <td scope="row">A</td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Filter Inlet Pressure (P3)
+                            </td>
+                            <td id="prsr_fltIn_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="prsr_fltIn" scope="row"></td>
+                            <td class="unit_pressure" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Filter1 Outlet Pressure (P4)
+                            </td>
+                            <td id="prsr_flt1Out_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="prsr_flt1Out" scope="row"></td>
+                            <td class="unit_pressure" class="unit_temp" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Filter2 Outlet Pressure (P5)
+                            </td>
+                            <td id="prsr_flt2Out_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="prsr_flt2Out" scope="row"></td>
+                            <td class="unit_pressure" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Filter3 Outlet Pressure (P6)
+                            </td>
+                            <td id="prsr_flt3Out_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="prsr_flt3Out" scope="row"></td>
+                            <td class="unit_pressure" scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign" scope="row">
+                                Filter4 Outlet Pressure (P7)
+                            </td>
+                            <td id="prsr_flt4Out_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="prsr_flt4Out" scope="row"></td>
+                            <td class="unit_pressure" scope="row"></td>
+                        </tr>
+                        <tr class="f5_set">
+                            <td class="tdCenterAlign" scope="row">
+                                Filter5 Outlet Pressure (P8)
+                            </td>
+                            <td id="prsr_flt5Out_status" class="tdCenterAlign" scope="row"></td>
+                            <td id="prsr_flt5Out" scope="row"></td>
+                            <td class="unit_pressure" scope="row"></td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div class="pumpValve title" data-label="Pump and Proportional Valve Information">
+            <div class="data-before-trigger"></div>
+            <div class="content">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-4 tdCenterAlign"></th>
+                            <th class="col-3 tdCenterAlign">Value</th>
+                            <th class="col-3 tdCenterAlign">Description</th>
+                            <th class="col-2 tdCenterAlign"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="tdCenterAlign">Coolant Pump1[%]</td>
+                            <td id="inv1_freq" class="tdCenterAlign"></td>
+                            <td class="tdCenterAlign">
+                                The Current Pump Speed in Percentage
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign">Coolant Pump2[%]</td>
+                            <td id="inv2_freq" class="tdCenterAlign"></td>
+                            <td class="tdCenterAlign">
+                                The Current Pump Speed in Percentage
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="tdCenterAlign">
+                                Facility Water Proportional Valve 1 (PV1) [%]
+                            </td>
+                            <td id="WaterPV" class="tdCenterAlign"></td>
+                            <td class="tdCenterAlign">
+                                The Current Opening Ratio in Percentage
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr class="level_sw_result">
+                            <td class="tdCenterAlign">Liquid Coolant Level 1</td>
+                            <td id="level1" class="tdCenterAlign"></td>
+                            <td class="tdCenterAlign">Coolant Level Sensor 1</td>
+                            <td></td>
+                        </tr>
+                        <tr class="level_sw_result">
+                            <td class="tdCenterAlign">Liquid Coolant Level 2</td>
+                            <td id="level2" class="tdCenterAlign"></td>
+                            <td class="tdCenterAlign">Coolant Level Sensor 2</td>
+                            <td></td>
+                        </tr>
+                        <tr class="level_sw_result">
+                            <td class="tdCenterAlign">Liquid Coolant Level 3</td>
+                            <td id="level3" class="tdCenterAlign"></td>
+                            <td class="tdCenterAlign">Coolant Level Sensor 3</td>
+                            <td></td>
+                        </tr>
+                        <tr class="level_sw_result">
+                            <td class="tdCenterAlign">Power Supply 1</td>
+                            <td id="power1" class="tdCenterAlign"></td>
+                            <td class="tdCenterAlign">Power Supply Sensor 1</td>
+                            <td></td>
+                        </tr>
+                        <tr class="level_sw_result">
+                            <td class="tdCenterAlign">Power Supply 2</td>
+                            <td id="power2" class="tdCenterAlign"></td>
+                            <td class="tdCenterAlign">Power Supply Sensor 2</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        {% if (user == 'admin') or (user == 'superuser') %}
+    
+        <div class="evStatus title" data-label="Electrical Valve Information">
+            <div class="data-before-trigger"></div>
+            <div class="content">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-4 tdCenterAlign" scope="col">
+                                Electrical Valve (EV)
+                            </th>
+                            <th class="col-3 tdCenterAlign">Status</th>
+                            <th class="col-3 tdCenterAlign">Description</th>
+                            <th class="col-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">EV1</td>
+                            <td id="EV1" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Pump1 Inlet Valve
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">EV2</td>
+                            <td id="EV2" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Pump1 Outlet Valve
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">EV3</td>
+                            <td id="EV3" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Pump2 Inlet Valve
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">EV4</td>
+                            <td id="EV4" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td class="tdCenterAlign" scope="row">
+                                Coolant Pump2 Outlet Valve
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div class="deviceStatus title" data-label="Device Status">
+            <div class="data-before-trigger"></div>
+            <div class="content">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr class="row_sticky">
+                            <th class="col-4 tdCenterAlign" scope="col">Sensor</th>
+                            <th class="col-3 tdCenterAlign">Status</th>
+                            <th class="col-3"></th>
+                            <th class="col-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">
+                                Facility Water Proportional Valve 1 (PV1)
+                            </td>
+                            <td id="Water_PV_Error" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">
+                                Electrical Valve 1 (EV1)
+                            </td>
+                            <td id="EV1_Error" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">
+                                Electrical Valve 2 (EV2)
+                            </td>
+                            <td id="EV2_Error" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">
+                                Electrical Valve 3 (EV3)
+                            </td>
+                            <td id="EV3_Error" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">
+                                Electrical Valve 4 (EV4)
+                            </td>
+                            <td id="EV4_Error" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">
+                                Leakage Sensor
+                            </td>
+                            <td id="leakage" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">
+                                Inverter 1 Error
+                            </td>
+                            <td id="Inv1_Error" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">
+                                Inverter 2 Error
+                            </td>
+                            <td id="Inv2_Error" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">
+                                Inverter 1 Overload
+                            </td>
+                            <td id="Inv1_OverLoad" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">
+                                Inverter 2 Overload
+                            </td>
+                            <td id="Inv2_OverLoad" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">PLC</td>
+                            <td id="PLC" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">ATS</td>
+                            <td id="ATS" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+    
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">PC1</td>
+                            <td id="pc1_error" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+    
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">PC2</td>
+                            <td id="pc2_error" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div class="showcase title hidden" data-label="Flow Data">
+            <div class="data-before-trigger"></div>
+            <div class="content">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr class="row_sticky">
+                            <th class="w-25 tdCenterAlign" scope="col">Sensor</th>
+                            <th class="w-25 tdCenterAlign">Status</th>
+                            <th class="w-50"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">Flow 1</td>
+                            <td id="four" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                        </tr>
+                        <tr>
+                            <td class="w-12 tdCenterAlign" scope="row">Flow 2</td>
+                            <td id="eight" class="w-12 tdCenterAlign" scope="row"></td>
+                            <td scope="row"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+        <div class="rack_setting hidden title" data-label="Rack Information">
+            <div class="data-before-trigger"></div>
+            <div class="content">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-4 tdCenterAlign"></th>
+                            <th class="col-3 tdCenterAlign">Opening (%)</th>
+                            <th class="col-3 tdCenterAlign">Leakage</th>
+                            <th class="col-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="rack1 hidden">
+                            <td class="w-25 tdCenterAlign">Rack1</td>
+                            <td id="rack1_status" class="w-25 tdCenterAlign"></td>
+                            <td id="rack1_leak" class="w-25 tdCenterAlign"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="rack2 hidden">
+                            <td class="w-25 tdCenterAlign">Rack2</td>
+                            <td id="rack2_status" class="w-25 tdCenterAlign"></td>
+                            <td id="rack2_leak" class="w-25 tdCenterAlign"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="rack3 hidden">
+                            <td class="w-25 tdCenterAlign">Rack3</td>
+                            <td id="rack3_status" class="w-25 tdCenterAlign"></td>
+                            <td id="rack3_leak" class="w-25 tdCenterAlign"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="rack4 hidden">
+                            <td class="w-25 tdCenterAlign">Rack4</td>
+                            <td id="rack4_status" class="w-25 tdCenterAlign"></td>
+                            <td id="rack4_leak" class="w-25 tdCenterAlign"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="rack5 hidden">
+                            <td class="w-25 tdCenterAlign">Rack5</td>
+                            <td id="rack5_status" class="w-25 tdCenterAlign"></td>
+                            <td id="rack5_leak" class="w-25 tdCenterAlign"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="rack6 hidden">
+                            <td class="w-25 tdCenterAlign">Rack6</td>
+                            <td id="rack6_status" class="w-25 tdCenterAlign"></td>
+                            <td id="rack6_leak" class="w-25 tdCenterAlign"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="rack7 hidden">
+                            <td class="w-25 tdCenterAlign">Rack7</td>
+                            <td id="rack7_status" class="w-25 tdCenterAlign"></td>
+                            <td id="rack7_leak" class="w-25 tdCenterAlign"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="rack8 hidden">
+                            <td class="w-25 tdCenterAlign">Rack8</td>
+                            <td id="rack8_status" class="w-25 tdCenterAlign"></td>
+                            <td id="rack8_leak" class="w-25 tdCenterAlign"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="rack9 hidden">
+                            <td class="w-25 tdCenterAlign">Rack9</td>
+                            <td id="rack9_status" class="w-25 tdCenterAlign"></td>
+                            <td id="rack9_leak" class="w-25 tdCenterAlign"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="rack10 hidden">
+                            <td class="w-25 tdCenterAlign">Rack10</td>
+                            <td id="rack10_status" class="w-25 tdCenterAlign"></td>
+                            <td id="rack10_leak" class="w-25 tdCenterAlign"></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+    </div>
+    {% endblock %} {% block scripts %}
+    <script>
+        function changeAgentVal() {
+            document.getElementById("picpath").value =
+                document.getElementById("inputFileAgent").value;
+        }
+        function cvtInputValue(val_in) {
+            var val_cvt = val_in.replace(/[^0-9.]/g, "");
+    
+            const decimalPointIndex = val_cvt.indexOf(".");
+            if (decimalPointIndex !== -1) {
+                val_cvt =
+                    val_cvt.slice(0, decimalPointIndex + 1) +
+                    val_cvt.slice(decimalPointIndex + 1).replace(".", "");
+            }
+            return val_cvt;
+        }
+    
+        function cvtInputValueNoPnt(val_in) {
+            var val_cvt = val_in.replace(/[^0-9]/g, "");
+    
+            const decimalPointIndex = val_cvt.indexOf(".");
+            if (decimalPointIndex !== -1) {
+                val_cvt =
+                    val_cvt.slice(0, decimalPointIndex + 1) +
+                    val_cvt.slice(decimalPointIndex + 1).replace(".", "");
+            }
+            return val_cvt;
+        }
+    
+        jQuery(document).ready(function () {
+            let max_filterout = -Infinity;
+            let userType = "{{user}}";
+    
+            var selectedValue = $("#opMod").val();
+            if (selectedValue == "auto") {
+                $(".auto_set").css("display", "flex");
+    
+                $(".manual_set").css("display", "none");
+            } else if (selectedValue == "manual") {
+                $(".auto_set").css("display", "none");
+                $(".manual_set").css("display", "flex");
+            } else {
+                $(".auto_set").css("display", "none");
+                $(".manual_set").css("display", "none");
+            }
+    
+            if (userType == "superuser" || userType == "admin") {
+                $(".machine_img_sr").show();
+                $(".machine_img_jr").hide();
+                $(".machine_img_1366_sr").show();
+                $(".machine_img_1366_jr").hide();
+                $(".machine_img_1497_sr").show();
+                $(".machine_img_1497_jr").hide();
+                $(".EV1").show();
+                $(".EV2").show();
+                $(".EV3").show();
+                $(".EV4").show();
+            } else {
+                $(".machine_img_sr").hide();
+                $(".machine_img_jr").show();
+                $(".machine_img_1366_sr").hide();
+                $(".machine_img_1366_jr").show();
+                $(".machine_img_1497_sr").hide();
+                $(".machine_img_1497_jr").show();
+                $(".EV1").hide();
+                $(".EV2").hide();
+                $(".EV3").hide();
+                $(".EV4").hide();
+                $(".data_31").css("left", "570px").css("top", "860px");
+                $(".data_32").css("left", "570px");
+                $(".data_1366_31").css("left", "365px").css("top", "560px");
+                $(".data_1366_32").css("left", "365px");
+                $(".pump1").css("left", "440px").css("top", "660px");
+                $(".pump2").css("left", "440px").css("top", "440px");
+            }
+    
+            $("#modAplBt").click(function () {
+                var selectedValue = $("#opMod").val();
+                if (selectedValue == "auto") {
+                    $(".auto_set").css("display", "flex");
+    
+                    $(".manual_set").css("display", "none");
+                } else if (selectedValue == "manual") {
+                    $(".auto_set").css("display", "none");
+                    $(".manual_set").css("display", "flex");
+                } else {
+                    $(".auto_set").css("display", "none");
+                    $(".manual_set").css("display", "none");
+                }
+            });
+    
+            function current_data(data, version) {
+                console.log(data);
+                let v2 = !version["function_switch"];
+    
+                for (var key in data["value"]) {
+                    if (data["value"].hasOwnProperty(key)) {
+                        var value = data["value"][key];
+    
+                        if (key.includes("flow") || key.includes("freq")) {
+                            $("#" + key).text(value.toFixed(0));
+                            $("." + key).text(value.toFixed(0));
+                            if (
+                                data["value"]["inv1_freq"] > 100 ||
+                                data["value"]["inv2_freq"] > 100
+                            ) {
+                                $("#" + key).text(100);
+                                $("." + key).text(100);
+                            }
+                        } else if (key == "WaterPV") {
+                            if (data["value"]["WaterPV"] > 100) {
+                                $("#" + key)
+                                    .text(100)
+                                    .css("color", "black");
+                                $("." + key)
+                                    .text(100)
+                                    .css("color", "black");
+                            } else if (data["value"]["WaterPV"] < 1) {
+                                $("#" + key)
+                                    .text(0)
+                                    .css("color", "black");
+                                $("." + key)
+                                    .text(0)
+                                    .css("color", "black");
+                            } else {
+                                $("#" + key)
+                                    .text(value.toFixed(0))
+                                    .css("color", "black");
+                                $("." + key)
+                                    .text(value.toFixed(0))
+                                    .css("color", "black");
+                            }
+                        } else if (key.includes("prsr")) {
+                            $("#" + key).text(
+                                value.toFixed(userType == "superuser" ? 2 : 1)
+                            );
+                            $("." + key).text(value.toFixed(1));
+                        } else {
+                            $("#" + key).text(
+                                value.toFixed(userType == "superuser" ? 2 : 1)
+                            );
+                            $("." + key).text(value.toFixed(1));
+                        }
+                    }
+                }
+    
+                let outlet_key;
+    
+                for (var key in data["value"]) {
+                    if (key.includes("prsr_flt") && key != "prsr_fltIn") {
+                        let value = data["value"][key];
+                        if (value != "-") {
+                            if (value > max_filterout) {
+                                max_filterout = value;
+                                outlet_key = key;
+                            }
+                        }
+    
+                        diff_filter = data["value"]["prsr_fltIn"] - max_filterout;
+                        max_filterout = parseFloat(max_filterout);
+    
+                        if (userType == "superuser") {
+                            diff_filter = diff_filter.toFixed(2);
+                            max_filterout = max_filterout.toFixed(2);
+                        } else {
+                            diff_filter = diff_filter.toFixed(1);
+                            max_filterout = max_filterout.toFixed(1);
+                        }
+    
+                        diff_filter_one_decimal =
+                            parseFloat(diff_filter).toFixed(1);
+    
+                        max_filterout_one_decimal =
+                            parseFloat(max_filterout).toFixed(1);
+                        $("#prsr_fltmax_status")
+                            .css("color", "black")
+                            .text("Valid");
+    
+                        $("#prsr_fltmax").text(diff_filter);
+                        $(".prsr_fltmax").text(diff_filter_one_decimal);
+                        $(".prsr_flt1Out").text(max_filterout_one_decimal);
+    
+                        if (data["warning_notice"][outlet_key]) {
+                            let status_w = data["warning_notice"][key];
+                            let status_a = data["alert_notice"][key];
+    
+                            if (status_a) {
+                                $("#prsr_fltmax_status")
+                                    .css("color", "red")
+                                    .text("Alert Level");
+                            } else if (status_w) {
+                                $("#prsr_fltmax_status")
+                                    .css("color", "red")
+                                    .text("Warning Level");
+                            } else {
+                                $("#prsr_fltmax_status")
+                                    .css("color", "black")
+                                    .text("Valid");
+                            }
+                        }
+                    }
+                }
+                max_filterout = 0;
+    
+                for (var key in data["ats_status"]) {
+                    if (data["ats_status"].hasOwnProperty(key)) {
+                        var value = data["ats_status"][key];
+    
+                        if (key == "ATS1" && value) {
+                            $("#ATS").css("color", "black").text("Primary");
+                        } else if (key == "ATS2") {
+                            if (!data["ats_status"]["ATS1"]) {
+                                if (value) {
+                                    $("#ATS")
+                                        .css("color", "black")
+                                        .text("Secondary");
+                                } else {
+                                    $("#ATS").css("color", "black").text("OFF");
+                                }
+                            }
+                        }
+                    }
+                }
+    
+                for (var key in data["level_sw"]) {
+                    if (data["level_sw"].hasOwnProperty(key)) {
+                        var value = data["level_sw"][key];
+    
+                        $("#" + key)
+                            .text("OK")
+                            .css("color", "black");
+                        if (!value) {
+                            $("#" + key)
+                                .text("NG")
+                                .css("color", "red");
+                        }
+                    }
+                }
+    
+                for (var key in data["unit"]) {
+                    if (data["unit"].hasOwnProperty(key)) {
+                        var value = data["unit"][key];
+                        $("." + key).text(value);
+                    }
+                }
+    
+                for (var key in data["warning_notice"]) {
+                    if (data["warning_notice"].hasOwnProperty(key)) {
+                        var status_w = data["warning_notice"][key];
+                        var status_a = data["alert_notice"][key];
+                        var element = document.getElementById(key + "_status");
+    
+                        if (element) {
+                            if (status_a === true) {
+                                element.style.color = "red";
+                                element.innerText = "Alert Level";
+                            } else if (status_w === true) {
+                                element.style.color = "#F39C12";
+                                element.innerText = "Warning Level";
+                            } else {
+                                element.style.color = "black";
+                                element.innerText = "Valid";
+                            }
+                        }
+                    }
+                }
+    
+                for (var key in data["error"]) {
+                    if (data["error"].hasOwnProperty(key)) {
+                        var value = data["error"][key];
+                        var device_element = document.getElementById(key);
+    
+                        if (!key.includes("_Com") && !key.includes("_broken")) {
+                            if (device_element) {
+                                if (value == true) {
+                                    device_element.style.color = "red";
+                                    device_element.innerText = "Device Error";
+                                } else {
+                                    device_element.style.color = "black";
+                                    device_element.innerText = "OK";
+                                }
+                            } else {
+                                if (
+                                    key == "Water_Leak" ||
+                                    key == "Water_Leak_Broken"
+                                ) {
+                                    if (key == "Water_Leak_Broken" && value) {
+                                        $("#leakage")
+                                            .css("color", "red")
+                                            .text("Broken Error");
+                                    } else if (key == "Water_Leak") {
+                                        if (!data["error"]["Water_Leak_Broken"]) {
+                                            if (value) {
+                                                $("#leakage")
+                                                    .css("color", "red")
+                                                    .text("Leak");
+                                            } else {
+                                                $("#leakage")
+                                                    .css("color", "black")
+                                                    .text("OK");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+    
+                        if (userType == "superuser" || userType == "admin") {
+                            let broken_mapping = {
+                                PrsrClntRtn_broken: "prsr_clntRtn",
+                                PrsrClntRtnSpr_broken: "prsr_clntRtnSpr",
+                                PrsrClntSplySpr_broken: "prsr_clntSplySpr",
+                                PrsrClntSply_broken: "prsr_clntSply",
+                                PrsrFlt1Out_broken: "prsr_flt1Out",
+                                PrsrFlt2Out_broken: "prsr_flt2Out",
+                                PrsrFlt3Out_broken: "prsr_flt3Out",
+                                PrsrFlt4Out_broken: "prsr_flt4Out",
+                                PrsrFlt5Out_broken: "prsr_flt5Out",
+                                PrsrFltIn_broken: "prsr_fltIn",
+                                PrsrWaterIn_broken: "prsr_wtrIn",
+                                PrsrWaterOut_broken: "prsr_wtrOut",
+                                TempClntRtn_broken: "temp_clntRtn",
+                                TempClntSplySpr_broken: "temp_clntSplySpr",
+                                TempClntSply_broken: "temp_clntSply",
+                                TempWaterIn_broken: "temp_waterIn",
+                                TempWaterOut_broken: "temp_waterOut",
+                                Clnt_Flow_broken: "flow_clnt",
+                                Wtr_Flow_broken: "flow_wtr",
+                            };
+    
+                            for (const [broken_key, local_value] of Object.entries(
+                                broken_mapping
+                            )) {
+                                let status_element = document.getElementById(
+                                    `${local_value}_status`
+                                );
+                                let local_element =
+                                    document.getElementById(local_value);
+                                if (key === broken_key) {
+                                    if (value) {
+                                        if (status_element) {
+                                            status_element.style.color = "red";
+                                            status_element.innerText =
+                                                "Broken Error";
+                                        }
+    
+                                        let localElement = $(`#${local_value}`);
+                                        if (localElement.length > 0) {
+                                            localElement
+                                                .css("color", "red")
+                                                .text("-");
+                                        }
+    
+                                        let localClassElement = $(
+                                            `.${local_value}`
+                                        );
+                                        if (localClassElement.length > 0) {
+                                            localClassElement
+                                                .css("color", "red")
+                                                .text("-");
+                                        }
+                                    } else {
+                                        let localElement = $(`#${local_value}`);
+                                        if (localElement.length > 0) {
+                                            localElement.css("color", "");
+                                        }
+    
+                                        let localClassElement = $(
+                                            `.${local_value}`
+                                        );
+                                        if (localClassElement.length > 0) {
+                                            localClassElement.css("color", "");
+                                        }
+                                    }
+    
+                                    if (key == "Clnt_Flow_broken") {
+                                        if (value) {
+                                            $("#clnt_flow_status")
+                                                .css("color", "red")
+                                                .text("Broken Error");
+    
+                                            $("#flow_clnt")
+                                                .css("color", "red")
+                                                .text("-");
+    
+                                            $(".flow_clnt")
+                                                .css("color", "red")
+                                                .text("-");
+                                        } else {
+                                            $("#flow_clnt").css("color", "");
+                                            $(".flow_clnt").css("color", "");
+                                        }
+                                    }
+    
+                                    if (key == "Wtr_Flow_broken") {
+                                        if (value) {
+                                            $("#wtr_flow_status")
+                                                .css("color", "red")
+                                                .text("Broken Error");
+    
+                                            $("#flow_wtr")
+                                                .css("color", "red")
+                                                .text("-");
+    
+                                            $(".flow_wtr")
+                                                .css("color", "red")
+                                                .text("-");
+                                        } else {
+                                            $("#flow_wtr").css("color", "");
+                                            $(".flow_wtr").css("color", "");
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            let broken_mapping = {
+                                PrsrClntRtn_broken: "prsr_clntRtn",
+                                PrsrClntRtnSpr_broken: "prsr_clntRtnSpr",
+                                PrsrClntSplySpr_broken: "prsr_clntSplySpr",
+                                PrsrClntSply_broken: "prsr_clntSply",
+                                PrsrFltIn_broken: "prsr_fltIn",
+                                prsr_fltmax: "prsr_fltmax",
+                                PrsrWaterIn_broken: "prsr_wtrIn",
+                                PrsrWaterOut_broken: "prsr_wtrOut",
+                                TempClntRtn_broken: "temp_clntRtn",
+                                TempClntSplySpr_broken: "temp_clntSplySpr",
+                                TempClntSply_broken: "temp_clntSply",
+                                TempWaterIn_broken: "temp_waterIn",
+                                TempWaterOut_broken: "temp_waterOut",
+                                Clnt_Flow_broken: "clnt_flow",
+                                Wtr_Flow_broken: "wtr_flow",
+                            };
+    
+                            for (const [broken_key, local_value] of Object.entries(
+                                broken_mapping
+                            )) {
+                                let status_element = document.getElementById(
+                                    `${local_value}_status`
+                                );
+                                let local_element =
+                                    document.getElementById(local_value);
+                                if (
+                                    key === broken_key ||
+                                    broken_key == "prsr_fltmax"
+                                ) {
+                                    let filterout = [
+                                        data["error"]["PrsrFlt1Out_broken"],
+                                        data["error"]["PrsrFlt2Out_broken"],
+                                        data["error"]["PrsrFlt3Out_broken"],
+                                        data["error"]["PrsrFlt4Out_broken"],
+                                        data["error"]["PrsrFlt5Out_broken"],
+                                    ];
+    
+                                    if (broken_key == "prsr_fltmax") {
+                                        if (filterout.some(Boolean)) {
+                                            $(`#${local_value}_status`)
+                                                .css("color", "red")
+                                                .text("Broken Error");
+    
+                                            let localElement = $(`#${local_value}`);
+    
+                                            if (localElement.length > 0) {
+                                                $(`#${local_value}`)
+                                                    .css("color", "red")
+                                                    .text("-");
+                                            }
+    
+                                            let localClassElement = $(
+                                                `.${local_value}`
+                                            );
+    
+                                            if (localClassElement.length > 0) {
+                                                $(`.${local_value}`)
+                                                    .css("color", "red")
+                                                    .text("-");
+                                            }
+                                        } else {
+                                            $(`#${local_value}_status`).css(
+                                                "color",
+                                                ""
+                                            );
+    
+                                            let localElement = $(`#${local_value}`);
+    
+                                            if (localElement.length > 0) {
+                                                $(`#${local_value}`).css(
+                                                    "color",
+                                                    ""
+                                                );
+                                            }
+    
+                                            let localClassElement = $(
+                                                `.${local_value}`
+                                            );
+    
+                                            if (localClassElement.length > 0) {
+                                                $(`.${local_value}`).css(
+                                                    "color",
+                                                    ""
+                                                );
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        if (value) {
+                                            if (status_element) {
+                                                status_element.style.color = "red";
+                                                status_element.innerText =
+                                                    "Broken Error";
+                                            }
+    
+                                            let localElement = $(`#${local_value}`);
+    
+                                            if (localElement.length > 0) {
+                                                $(`#${local_value}`)
+                                                    .css("color", "red")
+                                                    .text("-");
+                                            }
+    
+                                            let localClassElement = $(
+                                                `.${local_value}`
+                                            );
+    
+                                            if (localClassElement.length > 0) {
+                                                $(`.${local_value}`)
+                                                    .css("color", "red")
+                                                    .text("-");
+                                            }
+                                        } else {
+                                            let localElement = $(`#${local_value}`);
+    
+                                            if (localElement.length > 0) {
+                                                $(`#${local_value}`).css(
+                                                    "color",
+                                                    ""
+                                                );
+                                            }
+    
+                                            let localClassElement = $(
+                                                `.${local_value}`
+                                            );
+    
+                                            if (localClassElement.length > 0) {
+                                                $(`.${local_value}`).css(
+                                                    "color",
+                                                    ""
+                                                );
+                                            }
+                                        }
+    
+                                        if (key == "Clnt_Flow_broken") {
+                                            if (value) {
+                                                $("#clnt_flow_status")
+                                                    .css("color", "red")
+                                                    .text("Broken Error");
+    
+                                                $("#flow_clnt")
+                                                    .css("color", "red")
+                                                    .text("-");
+    
+                                                $(".flow_clnt")
+                                                    .css("color", "red")
+                                                    .text("-");
+                                            } else {
+                                                $("#flow_clnt").css("color", "");
+                                                $(".flow_clnt").css("color", "");
+                                            }
+                                        }
+    
+                                        if (key == "Wtr_Flow_broken") {
+                                            if (value) {
+                                                $("#wtr_flow_status")
+                                                    .css("color", "red")
+                                                    .text("Broken Error");
+    
+                                                $("#flow_wtr")
+                                                    .css("color", "red")
+                                                    .text("-");
+    
+                                                $(".flow_wtr")
+                                                    .css("color", "red")
+                                                    .text("-");
+                                            } else {
+                                                $("#flow_wtr").css("color", "");
+                                                $(".flow_wtr").css("color", "");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+    
+                        let com_mapping = {
+                            ATS_Com: ["ATS1", "ATS2"],
+                            Ambient_Sensor_Com: [
+                                "relative_humid",
+                                "temp_ambient",
+                                "dew_point_temp",
+                            ],
+                            Clnt_Flow_Com: "clnt_flow",
+                            Cndct_Sensor_Com: "cndct",
+                            Inv1_Com: "inv1_freq",
+                            Inv2_Com: "inv2_freq",
+                            Power_Meter_Com: ["power", "AC"],
+                            Tbd_Com: "tbd",
+                            Wtr_Flow_Com: "wtr_flow",
+                            ph_Com: "ph",
+                        };
+    
+                        for (const [com_key, local_value] of Object.entries(
+                            com_mapping
+                        )) {
+                            if (key == com_key) {
+                                if (key == "ATS_Com") {
+                                    if (value) {
+                                        $(`#ATS`)
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                    }
+                                } else if (key == "Ambient_Sensor_Com") {
+                                    if (value) {
+                                        $("#temp_ambient_status")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $("#dew_point_temp_status")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $("#relative_humid_status")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $("#temp_ambient")
+                                            .css("color", "red")
+                                            .text("-");
+                                        $("#dewPt").css("color", "red").text("-");
+                                        $("#rltHmd").css("color", "red").text("-");
+                                        $(".temp_ambient")
+                                            .css("color", "red")
+                                            .text("-");
+                                        $(".dewPt").css("color", "red").text("-");
+                                    } else {
+                                        $("#temp_ambient").css("color", "");
+                                        $("#dewPt").css("color", "");
+                                        $("#rltHmd").css("color", "");
+                                        $(".temp_ambient").css("color", "");
+                                        $(".dewPt").css("color", "");
+                                    }
+                                } else if (key == "Power_Meter_Com") {
+                                    if (value) {
+                                        $("#power_status")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $("#AC_status")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $("#power").css("color", "red").text("-");
+                                        $("#AC").css("color", "red").text("-");
+                                    } else {
+                                        $("#power_status")
+                                            .css("color", "black")
+                                            .text("-");
+                                        $("#power").css("color", "");
+                                        $("#AC").css("color", "");
+                                    }
+                                } else if (key == "Inv1_Com") {
+                                    if (value) {
+                                        $("#inv1_freq")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $(".inv1_freq")
+                                            .css("color", "red")
+                                            .text("-");
+                                    } else {
+                                        $("#inv1_freq").css("color", "");
+                                        $(".inv1_freq").css("color", "");
+                                    }
+                                } else if (key == "Inv2_Com") {
+                                    if (value) {
+                                        $("#inv2_freq")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $(".inv2_freq")
+                                            .css("color", "red")
+                                            .text("-");
+                                    } else {
+                                        $("#inv2_freq").css("color", "");
+                                        $(".inv2_freq").css("color", "");
+                                    }
+                                } else if (key == "Clnt_Flow_Com") {
+                                    if (value) {
+                                        $("#clnt_flow_status")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $("#flow_clnt")
+                                            .css("color", "red")
+                                            .text("-");
+                                        $(".flow_clnt")
+                                            .css("color", "red")
+                                            .text("-");
+                                    } else {
+                                        $("#flow_clnt").css("color", "");
+                                        $(".flow_clnt").css("color", "");
+                                    }
+                                } else if (key == "Cndct_Sensor_Com") {
+                                    if (value) {
+                                        $("#cndct_status")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $("#cdct").css("color", "red").text("-");
+                                        $(".cdct").css("color", "red").text("-");
+                                    } else {
+                                        $("#cdct").css("color", "");
+                                        $(".cdct").css("color", "");
+                                    }
+                                } else if (key == "Tbd_Com") {
+                                    if (value) {
+                                        $("#tbd_status")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $("#tbd").css("color", "red").text("-");
+                                        $(".tbd").css("color", "red").text("-");
+                                    } else {
+                                        $(".tbd").css("color", "");
+                                        $("#tbd").css("color", "");
+                                    }
+                                } else if (key == "Wtr_Flow_Com") {
+                                    if (value) {
+                                        $("#wtr_flow_status")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $("#flow_wtr")
+                                            .css("color", "red")
+                                            .text("-");
+                                        $(".flow_wtr")
+                                            .css("color", "red")
+                                            .text("-");
+                                    } else {
+                                        $("#flow_wtr").css("color", "");
+                                        $(".flow_wtr").css("color", "");
+                                    }
+                                } else if (key == "ph_Com") {
+                                    if (value) {
+                                        $("#ph_status")
+                                            .css("color", "red")
+                                            .text("Comm Error");
+                                        $("#pH").css("color", "red").text("-");
+                                        $(".pH").css("color", "red").text("-");
+                                    } else {
+                                        $("#pH").css("color", "");
+                                        $(".pH").css("color", "");
+                                    }
+                                }
+                            }
+                        }
+    
+                        if (
+                            data["error"]["PrsrClntSply_broken"] &&
+                            data["collapse"]["prsr_spare"]
+                        ) {
+                            if (data["error"]["PrsrClntSplySpr_broken"]) {
+                                $(".prsr_clntSply").text("-").css("color", "red");
+                            } else {
+                                $(".prsr_clntSply")
+                                    .text(
+                                        data["value"]["prsr_clntSplySpr"].toFixed(1)
+                                    )
+                                    .css("color", "black");
+                            }
+                        }
+    
+                        if (
+                            data["error"]["PrsrClntRtn_broken"] &&
+                            data["collapse"]["p2_spare"]
+                        ) {
+                            if (data["error"]["PrsrClntRtnSpr_broken"]) {
+                                $(".prsr_clntRtn").text("-").css("color", "red");
+                            } else {
+                                $(".prsr_clntRtn")
+                                    .text(
+                                        data["value"]["prsr_clntRtnSpr"].toFixed(1)
+                                    )
+                                    .css("color", "black");
+                            }
+                        }
+    
+                        if (
+                            data["error"]["TempClntSply_broken"] &&
+                            data["collapse"]["temp_spare"]
+                        ) {
+                            if (data["error"]["TempClntSplySpr_broken"]) {
+                                $(".temp_clntSply").text("-").css("color", "red");
+                            } else {
+                                $(".temp_clntSply")
+                                    .text(
+                                        data["value"]["temp_clntSplySpr"].toFixed(1)
+                                    )
+                                    .css("color", "black");
+                            }
+                        }
+    
+                        if (data["error"]["PLC"]) {
+                            const exclude_keys = [
+                                "relative_humid",
+                                "temp_ambient",
+                                "dew_point_temp",
+                                "clnt_flow",
+                                "wtr_flow",
+                                "ph",
+                                "cndct",
+                                "tbd",
+                                "power",
+                                "inv1_freq",
+                                "inv2_freq",
+                                "heat_capacity",
+                                "AC",
+                            ];
+    
+                            for (let key in data["value"]) {
+                                if (data["value"].hasOwnProperty(key)) {
+                                    if (exclude_keys.includes(key)) {
+                                        continue;
+                                    }
+                                    let status_value = `${key}_status`;
+                                    $(`#${status_value}`)
+                                        .css("color", "red")
+                                        .text("PLC Error");
+                                    $(`#${key}`).css("color", "red").text("-");
+                                    $(`.${key}`).css("color", "red").text("-");
+                                }
+                            }
+                        }
+                    }
+                }
+    
+                if (v2) {
+                    $("#p2sp_set").show();
+    
+                    if (userType != "superuser") {
+                        $("#t1sp_set").hide();
+                        $("#p1sp_set").hide();
+    
+                        if (
+                            data["collapse"]["temp_spare"] &&
+                            data["collapse"]["t1_no_error"]
+                        ) {
+                            $("#t1sp_set").show();
+                        }
+    
+                        if (
+                            data["collapse"]["prsr_spare"] &&
+                            data["collapse"]["p1_no_error"]
+                        ) {
+                            $("#p1sp_set").show();
+                        }
+    
+                        if (
+                            data["collapse"]["p2_spare"] &&
+                            data["collapse"]["p2_no_error"]
+                        ) {
+                            $("#p2sp_set").show();
+                        } else {
+                            $("#p2sp_set").hide();
+                        }
+                    }
+                } else {
+                    if (userType != "superuser") {
+                        $("#p2sp_set").hide();
+                        $("#t1sp_set").hide();
+                        $("#p1sp_set").hide();
+    
+                        if (
+                            data["collapse"]["temp_spare"] &&
+                            data["collapse"]["t1_no_error"]
+                        ) {
+                            $("#t1sp_set").show();
+                        }
+    
+                        if (
+                            data["collapse"]["prsr_spare"] &&
+                            data["collapse"]["p1_no_error"]
+                        ) {
+                            $("#p1sp_set").show();
+                        }
+    
+                        if (
+                            data["collapse"]["p2_spare"] &&
+                            data["collapse"]["p2_no_error"]
+                        ) {
+                            $("#p2sp_set").show();
+                        }
+                    }
+                    $("#p2sp_set").hide();
+                }
+    
+                let prsr_diff;
+    
+                if (
+                    (data["error"]["PrsrClntSply_broken"] &&
+                        data["error"]["PrsrClntSplySpr_broken"]) ||
+                    data["error"]["PrsrClntRtn_broken"]
+                ) {
+                    prsr_diff = "-";
+                } else if (data["error"]["PrsrClntSply_broken"]) {
+                    prsr_diff =
+                        data["value"]["prsr_clntSplySpr"] -
+                        data["value"]["prsr_clntRtn"];
+                } else {
+                    prsr_diff =
+                        data["value"]["prsr_clntSply"] -
+                        data["value"]["prsr_clntRtn"];
+                }
+    
+                if (userType == "superuser") {
+                    if (prsr_diff != "-") {
+                        prsr_diff = prsr_diff.toFixed(2);
+                    }
+                } else {
+                    if (prsr_diff != "-") {
+                        prsr_diff = prsr_diff.toFixed(1);
+                    }
+                }
+    
+                prsr_diff_one_decimal = parseFloat(prsr_diff).toFixed(1);
+                if (isNaN(prsr_diff_one_decimal)) {
+                    prsr_diff_one_decimal = "-";
+                }
+    
+                $("#prsr_diff").text(prsr_diff);
+                $(".prsr_diff").text(prsr_diff_one_decimal);
+    
+                for (var key in data["filter"]) {
+                    if (data["filter"].hasOwnProperty(key)) {
+                        var value = data["filter"][key];
+                        if (value === true) {
+                            $("#" + key).text("Full");
+                        } else {
+                            $("#" + key).text("Partial");
+                        }
+                    }
+                }
+    
+                for (var key in data["valve"]) {
+                    if (data["valve"].hasOwnProperty(key)) {
+                        var value = data["valve"][key];
+                        if (value == "True") {
+                            $("#" + key).text("Open");
+                            $("." + key).text("Open");
+                        } else if (value == "-") {
+                            $("#" + key).text("-");
+                            $("." + key).text("-");
+                        } else {
+                            $("#" + key).text("Close");
+                            $("." + key).text("Close");
+                        }
+                    }
+                }
+    
+                for (var key in data["rack_status"]) {
+                    if (data["rack_status"].hasOwnProperty(key)) {
+                        var value = data["rack_status"][key];
+                        $("#" + key)
+                            .text(value.toFixed(0))
+                            .css("color", "black");
+                    }
+                }
+    
+                for (var key in data["rack_leak"]) {
+                    if (data["rack_leak"].hasOwnProperty(key)) {
+                        var value = data["rack_leak"][key];
+                        let value_key = key.replace("_leak", "_status");
+                        $("#" + key)
+                            .text(value ? "Leak" : "OK")
+                            .css("color", value ? "red" : "black");
+                    }
+                }
+    
+                for (var key in data["rack_broken"]) {
+                    if (data["rack_broken"].hasOwnProperty(key)) {
+                        var value = data["rack_broken"][key];
+                        let assign_key = key.replace("_broken", "_leak");
+                        let value_key = key.replace("_broken", "_status");
+                        if (value) {
+                            $("#" + assign_key)
+                                .text("Broken")
+                                .css("color", "red");
+                        }
+                    }
+                }
+    
+                for (var key in data["rack_no_connection"]) {
+                    if (data["rack_no_connection"].hasOwnProperty(key)) {
+                        var value = data["rack_no_connection"][key];
+                        if (key.includes("_status")) {
+                            if (value) {
+                                $("#" + key)
+                                    .text("Comm Error")
+                                    .css("color", "red");
+                            }
+                        }
+    
+                        if (key.includes("_leak")) {
+                            if (value) {
+                                $("#" + key)
+                                    .text("Comm Error")
+                                    .css("color", "red");
+                            }
+                        }
+                    }
+                }
+            }
+    
+            function change_status_light(data, version) {
+                let light_orange = [];
+                let v2 = !version["function_switch"];
+                $(".status_light").css("background-color", "green");
+    
+                for (key in data["warning_notice"]) {
+                    let w_value = data["warning_notice"][key];
+    
+                    if (
+                        !data["collapse"]["temp_spare"] &&
+                        key === "temp_clntSplySpr"
+                    ) {
+                        continue;
+                    }
+    
+                    if (
+                        !data["collapse"]["p2_spare"] &&
+                        key === "prsr_clntRtnSpr"
+                    ) {
+                        continue;
+                    }
+    
+                    if (
+                        !data["collapse"]["prsr_spare"] &&
+                        key === "prsr_clntSplySpr"
+                    ) {
+                        continue;
+                    }
+    
+                    if (!v2) {
+                        if (key == "prsr_clntRtnSpr") {
+                            continue;
+                        }
+                    }
+    
+                    if (w_value) {
+                        $(".status_light").css("background-color", "orange");
+                    }
+                }
+    
+                for (key in data["alert_notice"]) {
+                    let a_value = data["alert_notice"][key];
+    
+                    if (
+                        !data["collapse"]["temp_spare"] &&
+                        key === "temp_clntSplySpr"
+                    ) {
+                        continue;
+                    }
+    
+                    if (
+                        !data["collapse"]["prsr_spare"] &&
+                        key === "prsr_clntSplySpr"
+                    ) {
+                        continue;
+                    }
+    
+                    if (!v2) {
+                        if (key == "prsr_clntRtnSpr") {
+                            continue;
+                        }
+                    }
+    
+                    if (a_value) {
+                        $(".status_light").css("background-color", "red");
+                    }
+                }
+    
+                for (key in data["error"]) {
+                    let e_value = data["error"][key];
+    
+                    if (
+                        !data["collapse"]["temp_spare"] &&
+                        key === "TempClntSplySpr_broken"
+                    ) {
+                        continue;
+                    }
+    
+                    if (
+                        !data["collapse"]["prsr_spare"] &&
+                        key === "PrsrClntSplySpr_broken"
+                    ) {
+                        continue;
+                    }
+    
+                    if (!v2) {
+                        if (
+                            [
+                                "PrsrClntRtnSpr_broken",
+                                "level1_error",
+                                "level2_error",
+                                "level3_error",
+                                "power1_error",
+                                "power2_error",
+                            ].includes(key)
+                        ) {
+                            continue;
+                        }
+                    }
+    
+                    if (key != "ATS1") {
+                        if (e_value) {
+                            $(".status_light").css("background-color", "red");
+                        }
+                    }
+                }
+            }
+    
+            jQuery(".cduStatus").attr("data-before", "System Status");
+            jQuery(".pumpValve").attr(
+                "data-before",
+                "Pump and Proportional Valve Information ▼"
+            );
+            jQuery(".evStatus").attr(
+                "data-before",
+                "Electrical Valve Information ▼"
+            );
+            jQuery(".deviceStatus").attr("data-before", "Device Status ▼");
+            jQuery(".sensor").attr("data-before", "Sensor Value ▼");
+            jQuery(".rack_setting").attr("data-before", "Rack Information ▼");
+            jQuery(".showcase").attr("data-before", "Flow Data ▼");
+    
+            async function fetch_get_data() {
+                while (true) {
+                    try {
+                        const data = await $.ajax({
+                            url: "/get_data",
+                            method: "GET",
+                            loader: false,
+                            timeout: 10000,
+                            dataType: "json",
+                        });
+                        const version = await $.ajax({
+                            url: "/get_data_version",
+                            method: "GET",
+                            loader: false,
+                            timeout: 10000,
+                            dataType: "json",
+                        });
+                        current_data(data, version);
+                        change_status_light(data, version);
+                    } catch (xhr) {
+                        console.error(
+                            `AJAX request failed with status: ${xhr.status} - ${xhr.statusText}`
+                        );
+                    }
+    
+                    await new Promise((resolve) => setTimeout(resolve, 2000));
+                }
+            }
+    
+            fetch_get_data();
+    
+            async function fetch_get_data_control() {
+                while (true) {
+                    try {
+                        const data = await $.ajax({
+                            url: "/get_data_control",
+                            method: "GET",
+                            loader: false,
+                            timeout: 10000,
+                            dataType: "json",
+                        });
+    
+                        for (var key in data["rack_visibility"]) {
+                            if (data["rack_visibility"].hasOwnProperty(key)) {
+                                var value = data["rack_visibility"][key];
+                                let rack_key = key.replace("_enable", "");
+    
+                                if (value) {
+                                    $("." + rack_key).show();
+                                } else {
+                                    $("." + rack_key).hide();
+                                }
+                            }
+                            let allFalse = Object.values(
+                                data["rack_visibility"]
+                            ).every((value) => value === false);
+    
+                            if (allFalse) {
+                                $(".rack_setting").hide();
+                            } else {
+                                $(".rack_setting").show();
+                            }
+                        }
+    
+                        $(".current_mode").text(data["value"]["resultMode"]);
+                    } catch (xhr) {
+                        console.error(
+                            `AJAX request failed with status: ${xhr.status} - ${xhr.statusText}`
+                        );
+                    }
+    
+                    await new Promise((resolve) => setTimeout(resolve, 2000));
+                }
+            }
+    
+            fetch_get_data_control();
+    
+            async function fetch_get_data_version() {
+                while (true) {
+                    try {
+                        const data = await $.ajax({
+                            url: "/get_data_version",
+                            method: "GET",
+                            loader: false,
+                            timeout: 10000,
+                            dataType: "json",
+                        });
+    
+                        if (!data["function_switch"]) {
+                            $(".level_sw_result").show();
+                        } else {
+                            $(".level_sw_result").hide();
+                        }
+                    } catch (xhr) {
+                        console.error(
+                            `AJAX request failed with status: ${xhr.status} - ${xhr.statusText}`
+                        );
+                    }
+    
+                    await new Promise((resolve) => setTimeout(resolve, 2000));
+                }
+            }
+    
+            fetch_get_data_version();
+    
+            $(".title").each(function () {
+                if ($(this).data("default") === "collapsed") {
+                    $(this).addClass("collapsed");
+                }
+            });
+    
+            $(".data-before-trigger").click(function () {
+                let $title = $(this).closest(".title");
+                $title.toggleClass("collapsed");
+                if ($title.hasClass("collapsed")) {
+                    $title.attr("data-before", $title.attr("data-label") + " ▲");
+                } else {
+                    $title.attr("data-before", $title.attr("data-label") + " ▼");
+                }
+            });
+    
+            $(".clickable-div").click(function (event) {
+                event.stopPropagation();
+                const $inputContainer = $(this).find(".input_container");
+    
+                $(".input_container").not($inputContainer).removeClass("active");
+    
+                $inputContainer.toggleClass("active");
+            });
+    
+            $(".input_container input").click(function (event) {
+                event.stopPropagation();
+            });
+    
+            $(document).click(function () {
+                $(".input_container").removeClass("active");
+            });
+    
+            const width = $(window).width();
+            const height = $(window).height();
+    
+            if (width > 1600) {
+                $(".pic_1920").show();
+                $(".pic_1497").hide();
+                $(".pic_1366").hide();
+            } else if (width <= 1600 && width > 1480) {
+                $(".pic_1920").hide();
+                $(".pic_1497").show();
+                $(".pic_1366").hide();
+            } else {
+                $(".pic_1920").hide();
+                $(".pic_1497").hide();
+                $(".pic_1366").show();
+            }
+        });
+    </script>
+    <script></script>
+    {% endblock %}

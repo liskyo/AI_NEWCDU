@@ -1,0 +1,11 @@
+{
+    "SN": "130001",
+    "Model": "CDU 1.3MW",
+    "Version": "1",
+    "WebUI": "1.0.0.1",
+    "SCC_API": "1.0.0.0",
+    "SNMP": "1.0.0.0",
+    "Redfish": "1.0.0.0",
+    "Modbus_Server": "1.0.0.0",
+    "PLC": "104"
+}

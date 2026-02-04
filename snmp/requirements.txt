@@ -1,0 +1,11 @@
+keyboard==0.13.5
+ply==3.11
+pyasn1==0.6.0
+pycryptodomex==3.20.0
+pymodbus==2.5.3
+pyserial==3.5
+pysmi==0.3.4
+pysnmp==4.4.12
+python-dotenv==1.0.1
+six==1.16.0
+Flask==3.0.2

@@ -1,0 +1,318 @@
+{
+    "PV1Status": {
+        "Name": "PV1Status",
+        "DisplayName": "Facility Water Proportional Valve 1 (PV1)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 0
+    },
+    "EV1Status": {
+        "Name": "EV1Status",
+        "DisplayName": "Electrical Valve 1 (EV1)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 25
+    },
+    "EV2Status": {
+        "Name": "EV2Status",
+        "DisplayName": "Electrical Valve 2 (EV2)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 25
+    },
+    "EV3Status": {
+        "Name": "EV3Status",
+        "DisplayName": "Electrical Valve 3 (EV3)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 25
+    },
+    "EV4Status": {
+        "Name": "EV4Status",
+        "DisplayName": "Electrical Valve 4 (EV4)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 25
+    },
+    "VFD1Overload": {
+        "Name": "VFD1Overload",
+        "DisplayName": "Inverter 1 Overload",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 0
+    },
+    "VFD2Overload": {
+        "Name": "VFD2Overload",
+        "DisplayName": "Inverter 2 Overload",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 0
+    },
+    "VFD1Status": {
+        "Name": "VFD1Status",
+        "DisplayName": "Inverter 1 Error",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 0
+    },
+    "VFD2Status": {
+        "Name": "VFD2Status",
+        "DisplayName": "Inverter 2 Error",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 0
+    },
+    "LeakDetectionLeak": {
+        "Name": "LeakDetectionLeak",
+        "DisplayName": "Leakage Sensor",
+        "Status": "Leak Detected",
+        "TrapEnabled": false,
+        "DelayTime": 0
+    },
+    "LeakDetectionBroken": {
+        "Name": "LeakDetectionBroken",
+        "DisplayName": "Leakage Sensor",
+        "Status": "Broken",
+        "TrapEnabled": false,
+        "DelayTime": 0
+    },
+    "PowerSource": {
+        "Name": "PowerSource",
+        "DisplayName": "ATS",
+        "Status": "OFF",
+        "TrapEnabled": false,
+        "DelayTime": 60
+    },
+    "Inv1SpeedComm": {
+        "Name": "Inv1SpeedCom",
+        "DisplayName": "Inverter 1",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 10
+    },
+    "Inv2SpeedComm": {
+        "Name": "Inv2SpeedComm",
+        "DisplayName": "Inverter 2",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 10
+    },
+    "AmbientTemperatureComm": {
+        "Name": "AmbientTemperatureComm",
+        "DisplayName": "Ambient Sensor",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 10
+    },
+    "CoolantFlowRateComm": {
+        "Name": "CoolantFlowRateComm",
+        "DisplayName": "Coolant Flow Meter",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 10
+    },
+    "FacilityWaterFlowRateComm": {
+        "Name": "FacilityWaterFlowRateComm",
+        "DisplayName": "Water Flow Meter",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 10
+    },
+    "ConductivityComm": {
+        "Name": "ConductivityComm",
+        "DisplayName": "Conductivity Sensor",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 10
+    },
+    "pHComm": {
+        "Name": "pHComm",
+        "DisplayName": "pH Sensor",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 10
+    },
+    "TurbidityComm": {
+        "Name": "TurbidityComm",
+        "DisplayName": "Turbidity Sensor",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 10
+    },
+    "ATS1Comm": {
+        "Name": "ATS1Comm",
+        "DisplayName": "ATS Communication",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 10
+    },
+    "InstantPowerConsumptionComm": {
+        "Name": "InstantPowerConsumptionComm",
+        "DisplayName": "Power Meter",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 10
+    },
+    "CoolantSupplyTemperatureBroken": {
+        "Name": "CoolantSupplyTemperatureBroken",
+        "DisplayName": "Coolant Supply Temperature (T1)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "CoolantSupplyTemperatureSpareBroken": {
+        "Name": "CoolantSupplyTemperatureSpareBroken",
+        "DisplayName": "Coolant Supply Temperature (Spare) (T1 sp)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "CoolantReturnTemperatureBroken": {
+        "Name": "CoolantReturnTemperatureBroken",
+        "DisplayName": "Coolant Return Temperature (T2)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "WaterSupplyTemperatureBroken": {
+        "Name": "WaterSupplyTemperatureBroken",
+        "DisplayName": "Facility Water Supply Temperature (T4)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "WaterReturnTemperatureBroken": {
+        "Name": "WaterReturnTemperatureBroken",
+        "DisplayName": "Facility Water Return Temperature (T5)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "CoolantSupplyPressureBroken": {
+        "Name": "CoolantSupplyPressureBroken",
+        "DisplayName": "Coolant Supply Pressure (P1)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "CoolantSupplyPressureSpareBroken": {
+        "Name": "CoolantSupplyPressureSpareBroken",
+        "DisplayName": "Coolant Supply Pressure (Spare) (P1 sp)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "CoolantReturnPressureBroken": {
+        "Name": "CoolantReturnPressureBroken",
+        "DisplayName": "Coolant Return Pressure (P2)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "FilterInletPressureBroken": {
+        "Name": "FilterInletPressureBroken",
+        "DisplayName": "Filter Inlet Pressure (P3)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "Filter1Status": {
+        "Name": "Filter1Status",
+        "DisplayName": "Filter1 Status",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "Filter2Status": {
+        "Name": "Filter2Status",
+        "DisplayName": "Filter2 Status",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "Filter3Status": {
+        "Name": "Filter3Status",
+        "DisplayName": "Filter3 Status",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "Filter4Status": {
+        "Name": "Filter4Status",
+        "DisplayName": "Filter4 Status",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "Filter5Status": {
+        "Name": "Filter5Status",
+        "DisplayName": "Filter5 Status",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "WaterInletPressureBroken": {
+        "Name": "WaterInletPressureBroken",
+        "DisplayName": "Facility Water Supply Pressure (P10)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "WaterOutletPressureBroken": {
+        "Name": "WaterOutletPressureBroken",
+        "DisplayName": "Facility Water Return Pressure (P11)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "CoolantFlowRateBroken": {
+        "Name": "CoolantFlowRateBroken",
+        "DisplayName": "Coolant Flow Rate (F1)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "WaterFlowRateBroken": {
+        "Name": "WaterFlowRateBroken",
+        "DisplayName": "Facility Water Flow Rate (F2)",
+        "Status": "Error",
+        "TrapEnabled": false,
+        "DelayTime": 15
+    },
+    "LowCoolantLevelWarning": {
+        "Name": "LowCoolantLevelWarning",
+        "DisplayName": "Low Coolant Level Warning",
+        "Status": "Error",
+        "TrapEnabled": false
+    },
+    "Inv1ErrorCode": {
+        "Name": "Inv1ErrorCode",
+        "DisplayName": "Inverter 1 Error",
+        "Status": "Error",
+        "TrapEnabled": false
+    },
+    "Inv2ErrorCode": {
+        "Name": "Inv2ErrorCode",
+        "DisplayName": "Inverter 2 Error",
+        "Status": "Error",
+        "TrapEnabled": false
+    },
+    "PC1Error": {
+        "Name": "PC1Error",
+        "DisplayName": "PC 1 Error",
+        "Status": "Error",
+        "TrapEnabled": false
+    },
+    "PC2Error": {
+        "Name": "PC2Error",
+        "DisplayName": "PC 2 Error",
+        "Status": "Error",
+        "TrapEnabled": false
+    },
+    "ControlUnit": {
+        "Name": "ControlUnit",
+        "DisplayName": "PLC",
+        "Status": "Good",
+        "TrapEnabled": false
+    }
+}

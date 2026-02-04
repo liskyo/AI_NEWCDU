@@ -1,0 +1,501 @@
+GATEWAY DEFINITIONS ::= BEGIN
+IMPORTS
+       MODULE-IDENTITY, OBJECT-TYPE
+         FROM SNMPv2-SMI
+         DisplayString, TimeStamp
+         FROM SNMPv2-TC
+         enterprises
+         FROM RFC1155-SMI;
+
+ITGSystem OBJECT IDENTIFIER ::= { enterprises 61011 }
+gateway OBJECT IDENTIFIER ::= { ITGSystem 1 }
+application OBJECT IDENTIFIER ::= { gateway 1 }
+data OBJECT IDENTIFIER ::= { application 1 }
+
+hellostring OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION ""
+    ::= { data 1 }
+
+countin OBJECT-TYPE
+    SYNTAX INTEGER
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION ""
+    ::= { data 2 }
+
+countout OBJECT-TYPE
+    SYNTAX INTEGER
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION ""
+    ::= { data 3 }
+
+bufferin OBJECT IDENTIFIER ::= { data 4 }
+bufferinval OBJECT IDENTIFIER ::= { bufferin 1 }
+
+CoolantSupplyTemperature OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Coolant Supply Temperature"
+    ::= { bufferinval 1 }
+
+CoolantSupplyTemperatureSpare OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Coolant Supply Temperature (Spare)"
+    ::= { bufferinval 2 }
+
+CoolantReturnTemperature OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Coolant Return Temperature"
+    ::= { bufferinval 3 }
+
+FacilityWaterSupplyTemperature OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Facility Water Supply Temperature"
+    ::= { bufferinval 4 }
+
+FacilityWaterReturnTemperature OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Facility Water Return Temperature"
+    ::= { bufferinval 5 }
+
+CoolantSupplyPressure OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Coolant Supply Pressure"
+    ::= { bufferinval 6 }
+
+CoolantSupplyPressureSpare OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Coolant Supply Pressure (Spare)"
+    ::= { bufferinval 7 }
+
+CoolantReturnPressure OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Coolant Return Pressure"
+    ::= { bufferinval 8 }
+
+FilterInletPressure OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Filter Inlet Pressure"
+    ::= { bufferinval 9 }
+
+Filter1OutletPressure OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Filter1 Outlet Pressure"
+    ::= { bufferinval 10 }
+
+Filter2OutletPressure OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Filter2 Outlet Pressure"
+    ::= { bufferinval 11 }
+
+Filter3OutletPressure OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Filter3 Outlet Pressure"
+    ::= { bufferinval 12 }
+
+Filter4OutletPressure OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Filter4 Outlet Pressure"
+    ::= { bufferinval 13 }
+
+Filter5OutletPressure OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Filter5 Outlet Pressure"
+    ::= { bufferinval 14 }
+
+CoolantQualityMeterOutletPressure OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Coolant Quality Meter Outlet Pressure"
+    ::= { bufferinval 15 }
+
+FacilityWaterinletpressure OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Facility Water inlet pressure"
+    ::= { bufferinval 16 }
+
+FacilityWateroutletpressure OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Facility Water outlet pressure"
+    ::= { bufferinval 17 }
+
+ProportionalValveFeedback OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Proportional Valve Feedback"
+    ::= { bufferinval 18 }
+
+RelativeHumidity OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Relative Humidity"
+    ::= { bufferinval 19 }
+
+AmbientTemperature OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Ambient Temperature"
+    ::= { bufferinval 20 }
+
+DewPointTemperature OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Dew Point Temperature"
+    ::= { bufferinval 21 }
+
+CoolantFlowRate OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Coolant Flow Rate"
+    ::= { bufferinval 22 }
+
+FacilityWaterFlowRate OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Facility Water Flow Rate"
+    ::= { bufferinval 23 }
+
+pH OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "pH"
+    ::= { bufferinval 24 }
+
+Conductivity OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Conductivity"
+    ::= { bufferinval 25 }
+
+Turbidity OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Turbidity"
+    ::= { bufferinval 26 }
+
+InstantPowerComsumption OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Instant Power Comsumption"
+    ::= { bufferinval 27 }
+
+Inv1Speed OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Inv1 Speed"
+    ::= { bufferinval 28 }
+
+Inv2Speed OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Inv2 Speed"
+    ::= { bufferinval 29 }
+
+HeatCapacity OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Heat Capacity"
+    ::= { bufferinval 30 }
+
+bufferout OBJECT IDENTIFIER ::= { data 5 }
+
+bufferoutblk1 OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION "data block n.1"
+    ::= { bufferout 1 }
+
+bufferoutblk2 OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION "data block n.2"
+    ::= { bufferout 2 }
+
+bufferoutblk3 OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION "data block n.3"
+    ::= { bufferout 3 }
+
+bufferoutblk4 OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION "data block n.4"
+    ::= { bufferout 4 }
+
+bufferoutblk5 OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION "data block n.5"
+    ::= { bufferout 5 }
+
+bufferoutblk6 OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION "data block n.6"
+    ::= { bufferout 6 }
+
+bufferoutblk7 OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION "data block n.7"
+    ::= { bufferout 7 }
+
+bufferoutblk8 OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION "data block n.8"
+    ::= { bufferout 8 }
+
+bufferoutval OBJECT IDENTIFIER ::= { bufferout 9 }
+
+traps OBJECT IDENTIFIER ::= { application 2 }
+trapsval OBJECT IDENTIFIER ::= { traps 1 }
+
+trapval1 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "pmpInPresr"
+    ::= { trapsval 1 }
+
+trapval2 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "pmpOutPresr"
+    ::= { trapsval 2 }
+
+trapval3 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "wtrInPresr"
+    ::= { trapsval 3 }
+
+trapval4 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "wtrOutPresr"
+    ::= { trapsval 4 }
+
+trapval5 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "oilFlow"
+    ::= { trapsval 5 }
+
+trapval6 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "wtrFlow"
+    ::= { trapsval 6 }
+
+trapval7 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "tempSet"
+    ::= { trapsval 7 }
+
+trapval8 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "tnkInTemp"
+    ::= { trapsval 8 }
+
+trapval9 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "tnkOutTemp"
+    ::= { trapsval 9 }
+
+trapval10 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "wtrInTemp"
+    ::= { trapsval 10 }
+
+trapval11 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "wtrOutTemp"
+    ::= { trapsval 11 }
+
+trapval12 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "ambntTemp"
+    ::= { trapsval 12 }
+
+trapval13 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "rltvHmd"
+    ::= { trapsval 13 }
+
+trapval14 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "dpTemp"
+    ::= { trapsval 14 }
+
+trapval15 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "invt1Freq"
+    ::= { trapsval 15 }
+
+trapval16 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "invt2Freq"
+    ::= { trapsval 16 }
+
+trapval17 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "wtrPV"
+    ::= { trapsval 17 }
+
+trapval18 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "oilPV"
+    ::= { trapsval 18 }
+
+trapval19 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "heatCap"
+    ::= { trapsval 19 }
+
+trapval20 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "ev1"
+    ::= { trapsval 20 }
+
+trapval21 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "ev2"
+    ::= { trapsval 21 }
+
+trapval22 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "ev3"
+    ::= { trapsval 22 }
+
+trapval23 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "ev4"
+    ::= { trapsval 23 }
+
+trapval24 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "leak"
+    ::= { trapsval 24 }
+
+trapval25 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "leakBrk"
+    ::= { trapsval 25 }
+
+trapval26 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "powerComsume"
+    ::= { trapsval 26 }
+
+trapval27 NOTIFICATION-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "oilLevel"
+    ::= { trapsval 27 }
+
+END

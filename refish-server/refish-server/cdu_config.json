@@ -1,0 +1,52 @@
+{
+    "Version": "1.01",
+    "FirmwareVersion": "1.2.2",
+    "ProductionDate": "2024-08-24T08:00:00Z",
+    "Manufacturer": "KAORI",
+    "Model": "SMC 1.3MW",
+    "SerialNumber": "000001",
+    "PartNumber": "000001",
+    "AssetTag": "Changed-SN0001",
+    "Coolant": {
+      "CoolantType": "Water",
+      "AdditiveName": "Glycol",
+      "AdditivePercent": 20,
+      "SpecificHeatkJoulesPerKgK": 3.974,
+      "DensityKgPerCubicMeter": 1030
+    },
+    "Location": {
+      "Placement": {
+        "Row": "North 1"
+      }
+    },
+    "Status": {
+      "State": "Enabled",
+      "Health": "OK"
+    },
+    "PrimaryCoolantConnectors": {
+      "Coolant": {
+        "CoolantType": "Water",
+        "AdditiveName": "Generic cooling water biocide",
+        "AdditivePercent": 0.5
+      },
+      "RatedFlowLitersPerMinute": 1500
+    },
+    "SecondaryCoolantConnectors": {
+      "Coolant": {
+        "CoolantType": "Water",
+        "AdditiveName": "Generic cooling water biocide",
+        "AdditivePercent": 1.0
+      },
+      "RatedFlowLitersPerMinute": 1000
+    },
+    "Filter": {
+      "RatedServiceHours": 1000,
+      "Replaceable": true,
+      "HotPluggable": false,
+      "Status": {
+        "State": "Enabled",
+        "Health": "OK"
+      }
+    }
+  }
+  

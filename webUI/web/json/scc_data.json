@@ -1,0 +1,170 @@
+{
+    "sensor_value_data": {
+        "CoolantSupplyTemperature": {
+            "Warning": false,
+            "Alert": false
+        },
+        "CoolantSupplyTemperatureSpare": {
+            "Warning": false,
+            "Alert": false
+        },
+        "CoolantReturnTemperature": {
+            "Warning": false,
+            "Alert": false
+        },
+        "WaterSupplyTemperature": {
+            "Warning": false,
+            "Alert": false
+        },
+        "WaterReturnTemperature": {
+            "Warning": false,
+            "Alert": false
+        },
+        "CoolantSupplyPressure": {
+            "Warning": false,
+            "Alert": false
+        },
+        "CoolantSupplyPressureSpare": {
+            "Warning": false,
+            "Alert": false
+        },
+        "CoolantReturnPressure": {
+            "Warning": false,
+            "Alert": false
+        },
+        "CoolantReturnPressureSpare": {
+            "Warning": false,
+            "Alert": false
+        },
+        "FilterInletPressure": {
+            "Warning": false,
+            "Alert": false
+        },
+        "Filter1OutletPressure": {
+            "Warning": false,
+            "Alert": false
+        },
+        "Filter2OutletPressure": {
+            "Warning": false,
+            "Alert": false
+        },
+        "Filter3OutletPressure": {
+            "Warning": false,
+            "Alert": false
+        },
+        "Filter4OutletPressure": {
+            "Warning": false,
+            "Alert": false
+        },
+        "Filter5OutletPressure": {
+            "Warning": false,
+            "Alert": false
+        },
+        "WaterInletPressure": {
+            "Warning": false,
+            "Alert": false
+        },
+        "WaterOutletPressure": {
+            "Warning": false,
+            "Alert": false
+        },
+        "RelativeHumidity": {
+            "Warning": false,
+            "Alert": false
+        },
+        "AmbientTemperature": {
+            "Warning": false,
+            "Alert": false
+        },
+        "DewPoint": {
+            "Warning": false,
+            "Alert": false
+        },
+        "CoolantFlowRate": {
+            "Warning": false,
+            "Alert": false
+        },
+        "WaterFlowRate": {
+            "Warning": false,
+            "Alert": false
+        },
+        "pH": {
+            "Warning": false,
+            "Alert": false
+        },
+        "Conductivity": {
+            "Warning": false,
+            "Alert": false
+        },
+        "Turbidity": {
+            "Warning": false,
+            "Alert": false
+        },
+        "InstantPowerConsumption": {
+            "Warning": false,
+            "Alert": false
+        },
+        "HeatCapAverageCurrentity": {
+            "Warning": false,
+            "Alert": false
+        },
+        "AverageCurrent": {
+            "Warning": false,
+            "Alert": false
+        }
+    },
+    "devices": {
+        "PV1Status": false,
+        "EV1Status": false,
+        "EV2Status": false,
+        "EV3Status": false,
+        "EV4Status": false,
+        "VFD1Overload": false,
+        "VFD2Overload": false,
+        "VFD1Status": false,
+        "VFD2Status": false,
+        "LeakDetectionLeak": false,
+        "LeakDetectionBroken": false,
+        "PowerSource": false,
+        "Inv1SpeedComm": false,
+        "Inv2SpeedComm": false,
+        "AmbientTemperatureComm": false,
+        "CoolantFlowRateComm": false,
+        "FacilityWaterFlowRateComm": false,
+        "ConductivityComm": false,
+        "pHComm": false,
+        "TurbidityComm": false,
+        "ATS1Comm": false,
+        "InstantPowerConsumptionComm": false,
+        "CoolantSupplyTemperatureBroken": false,
+        "CoolantSupplyTemperatureSpareBroken": false,
+        "CoolantReturnTemperatureBroken": false,
+        "WaterSupplyTemperatureBroken": false,
+        "WaterReturnTemperatureBroken": false,
+        "CoolantSupplyPressureBroken": false,
+        "CoolantSupplyPressureSpareBroken": false,
+        "CoolantReturnPressureBroken": false,
+        "CoolantReturnPressureSpareBroken": false,
+        "FilterInletPressureBroken": false,
+        "Filter1Status": false,
+        "Filter2Status": false,
+        "Filter3Status": false,
+        "Filter4Status": false,
+        "Filter5Status": false,
+        "WaterInletPressureBroken": false,
+        "WaterOutletPressureBroken": false,
+        "CoolantFlowRateBroken": false,
+        "WaterFlowRateBroken": false,
+        "LowCoolantLevelWarning": false,
+        "Inv1ErrorCode": false,
+        "Inv2ErrorCode": false,
+        "PC1Error": false,
+        "PC2Error": false,
+        "Level1Error": false,
+        "Level2Error": false,
+        "Level3Error": false,
+        "Power1Error": false,
+        "Power2Error": false,
+        "ControlUnit": false
+    }
+}

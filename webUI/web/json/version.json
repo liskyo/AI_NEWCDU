@@ -1,0 +1,10 @@
+{
+    "function_switch": false,
+    "flow_switch": false,
+    "flow2_switch": false,
+    "resultEVSW": false,
+    "resultFLSW": false,
+    "resultFLSW2": false,
+    "median_switch": false,
+    "mc_switch": false
+}
