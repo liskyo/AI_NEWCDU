@@ -304,28 +304,44 @@ const systemAlarm = computed(() => {
 
 // Mock Data Generator (Comprehensive)
 const generateMockData = () => {
+    // Dynamic Simulation Logic
+    const t = Date.now() / 1000 // seconds
+    const sine = (offset, speed = 1) => (Math.sin(t * speed + offset) + 1) / 2 // 0 to 1
+
+    // Tank Level Oscillation: 20% to 90%
+    const tankLevel = 20 + sine(0, 0.5) * 70 
+
+    // Temp Oscillation: 15C to 55C (Triggers Blue -> Green -> Red)
+    // Blue < 20, Red > 40
+    const tempSim = 15 + sine(2, 0.3) * 40 
+
+    // Flow Oscillation: Stop (0) to High (60)
+    // When flow > 5, pipe animation starts
+    const flowSim = sine(4, 0.8) > 0.2 ? 30 + sine(0, 2) * 30 : 0
+    const pumpSpeed = flowSim > 0 ? 40 + sine(0, 1) * 60 : 0
+
     return {
         value: {
             opMod: 'AUTO',
-            power: 3.5,
-            current: 12.5,
+            power: 3.5 + sine(1) * 2,
+            current: 12.5 + sine(2) * 5,
             AC: 12.6,
             heat_capacity: 45.2,
             
             // Primary
-            temp_clntSply: 25.4,
-            temp_clntSplySpr: 25.5,
-            temp_clntRtn: 30.1,
-            prsr_clntSply: 2.5,
+            temp_clntSply: tempSim.toFixed(1),
+            temp_clntSplySpr: tempSim.toFixed(1),
+            temp_clntRtn: (tempSim + 5).toFixed(1),
+            prsr_clntSply: 2.5 + sine(3) * 0.5,
             prsr_clntSplySpr: 2.4,
             prsr_clntRtn: 1.5,
             prsr_clntRtnSpr: 1.4,
             prsr_diff: 1.0,
-            flow_clnt: 45.2,
+            flow_clnt: flowSim.toFixed(1),
             
             // Secondary
-            temp_waterIn: 20.5,
-            temp_waterOut: 35.2,
+            temp_waterIn: 20.5 + sine(4) * 2,
+            temp_waterOut: 35.2 + sine(5) * 2,
             prsr_wtrIn: 3.2,
             prsr_wtrOut: 3.0,
             flow_wtr: 50.1,
@@ -339,12 +355,13 @@ const generateMockData = () => {
             tbd: 0.5,
             
             // Components
-            inv1_freq: 85,
+            inv1_freq: pumpSpeed.toFixed(0),
             inv2_freq: 0,
             WaterPV: 62,
-            level1: true,
-            level2: true,
-            level3: false,
+            level_tank: tankLevel.toFixed(1), // Key for Tank Animation
+            level1: tankLevel > 30,
+            level2: tankLevel > 60,
+            level3: tankLevel > 90,
             powerSupply1: true,
             powerSupply2: true,
             ev1: true,
@@ -372,7 +389,7 @@ const generateMockData = () => {
             inv2_error: 'OK',
             inv1_overload: 'OK',
             inv2_overload: 'OK',
-            plc_status: 'Device Error',
+            plc_status: 'Device Error', // Keep as error to show robust UI
             ats_status: 'OFF',
             pc1_status: 'OK',
             pc2_status: 'OK',
@@ -401,7 +418,7 @@ const toggleTestMode = () => {
         if (pollInterval) clearInterval(pollInterval)
         pollInterval = setInterval(() => {
             sensorData.value = generateMockData()
-        }, 1000)
+        }, 100)
     } else {
         if (pollInterval) clearInterval(pollInterval)
         fetchData()

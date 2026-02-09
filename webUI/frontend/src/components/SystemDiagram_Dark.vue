@@ -10,6 +10,24 @@ const getIconPath = (name) => {
     return `/img/diagram/${name}`
 }
 
+// Dynamic Style for Thermometers
+const getIconStyle = (key, value) => {
+    if (!key.toLowerCase().includes('temp') && !key.toLowerCase().includes('t5') && !key.toLowerCase().includes('t4')) return {}
+    
+    // Parse value
+    const val = parseFloat(value)
+    if (isNaN(val)) return {}
+
+    // Color Logic: Blue < 20, Green 20-40, Red > 40
+    if (val > 40) {
+        return { filter: 'sepia(1) saturate(5) hue-rotate(-50deg)' } // Red-ish
+    } else if (val < 20) {
+        return { filter: 'sepia(1) saturate(5) hue-rotate(180deg)' } // Blue-ish
+    } else {
+        return { filter: 'sepia(1) saturate(2) hue-rotate(50deg)' } // Green-ish
+    }
+}
+
 const sensors = [
     // === 1. Status & Tank (Top) ===
     // Tank1: Ls(Left), Ps(Top Right), Ts(Bottom Right) 
@@ -140,6 +158,34 @@ const getStatusBox = computed(() => {
              </div>
         </div>
 
+        <!-- === Dynamic SVG Overlay (New) === -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-5" style="overflow: visible;">
+            <defs>
+                <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.9" />
+                </linearGradient>
+            </defs>
+            
+            <!-- 1. Tank Water Level Animation -->
+            <!-- Located at Tank 1 Section: x=28%, y=5%, w=25%, h=22% -->
+            <!-- Approximated inner tank area -->
+            <rect x="30%" :y="`${25 - (getValue('level_tank') > 0 ? getValue('level_tank') * 0.18 : 0)}%`" 
+                  width="8%" :height="`${getValue('level_tank') > 0 ? getValue('level_tank') * 0.18 : 0}%`" 
+                  fill="url(#waterGradient)" rx="4"
+                  class="transition-all duration-1000 ease-in-out" />
+
+            <!-- 2. Dynamic Pipes Flow Animation -->
+            <!-- Only show if Flow > 5 LPM -->
+            <g v-if="getValue('flow_clnt') > 5 || getValue('inv1_freq') > 10" class="pipe-flow">
+                <!-- Supply Line (Blue) Path: Pump -> Output -->
+                <path d="M 60 72 L 60 48 L 85 48" fill="none" stroke="#3b82f6" stroke-width="0.5cqw" stroke-dasharray="1 1" class="animate-flow" />
+                
+                <!-- Return Line (Red) Path: Input -> Tank -->
+                <path d="M 85 76 L 74 76 L 74 90 L 40 90 L 40 25" fill="none" stroke="#ef4444" stroke-width="0.5cqw" stroke-dasharray="1 1" class="animate-flow-reverse" />
+            </g>
+        </svg>
+
         <!-- Icons Overlay -->
          <div v-for="s in sensors" :key="s.key" 
              class="absolute flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2 group z-10"
@@ -162,7 +208,9 @@ const getStatusBox = computed(() => {
             <!-- Row: Label - Icon - Value (Horizontal) -->
             <div v-else-if="s.layout === 'row-label-icon-val'" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center space-x-[0.4cqw]">
                  <span class="text-[0.8cqw] font-bold text-white whitespace-nowrap drop-shadow-md">{{ s.label }}</span>
-                 <img :src="getIconPath(s.icon)" class="w-[2cqw] mix-blend-normal" />
+                 <img :src="getIconPath(s.icon)" 
+                      :style="getIconStyle(s.key, getValue(s.key))"
+                      class="w-[2cqw] mix-blend-normal transition-all duration-500" />
                  <span class="text-[0.9cqw] font-mono font-bold text-yellow-300 bg-black/60 px-[0.3cqw] rounded border border-white/10">
                     {{ getValue(s.key) }} <span v-if="s.unit" class="text-[0.7em] text-yellow-500">{{ s.unit }}</span>
                  </span>
@@ -174,7 +222,9 @@ const getStatusBox = computed(() => {
                     {{ getValue(s.key) }} <span v-if="s.unit" class="text-[0.7em] text-gray-400">{{ s.unit }}</span>
                  </div>
                  <div class="relative flex flex-col items-center">
-                    <img :src="getIconPath(s.icon)" class="w-[2.5cqw] text-white relative z-10 mix-blend-normal" />
+                    <img :src="getIconPath(s.icon)" 
+                         :style="getIconStyle(s.key, getValue(s.key))"
+                         class="w-[2.5cqw] text-white relative z-10 mix-blend-normal transition-all duration-500" />
                     <div class="absolute -bottom-[0.8cqw] text-[0.7cqw] font-bold text-white whitespace-nowrap drop-shadow-md">{{ s.label }}</div>
                  </div>
             </div>
@@ -182,7 +232,9 @@ const getStatusBox = computed(() => {
              <!-- Row: Icon - Val -->
             <div v-else-if="s.layout === 'row-icon-val'" class="absolute left-[60%] flex items-center space-x-[0.3cqw]">
                  <div class="relative flex flex-col items-center">
-                    <img :src="getIconPath(s.icon)" class="w-[2.5cqw] text-white relative z-10 mix-blend-normal" />
+                    <img :src="getIconPath(s.icon)" 
+                         :style="getIconStyle(s.key, getValue(s.key))"
+                         class="w-[2.5cqw] text-white relative z-10 mix-blend-normal transition-all duration-500" />
                     <div class="absolute -bottom-[0.8cqw] text-[0.7cqw] font-bold text-white whitespace-nowrap drop-shadow-md">{{ s.label }}</div>
                  </div>
                  <div class="text-[0.9cqw] font-mono font-bold text-white bg-black/50 px-[0.3cqw] rounded border border-white/20 whitespace-nowrap">
@@ -193,3 +245,18 @@ const getStatusBox = computed(() => {
          </div>
     </div>
 </template>
+
+<style scoped>
+.animate-flow {
+    animation: dash 1s linear infinite;
+}
+.animate-flow-reverse {
+    animation: dash 1s linear infinite reverse;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: -2;
+    }
+}
+</style>

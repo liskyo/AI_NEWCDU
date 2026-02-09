@@ -1,8 +1,32 @@
 [
     {
         "signal_name": "M351",
-        "on_time": "2026-02-04 08:31:49",
+        "on_time": "2026-02-09 14:02:11",
         "off_time": null,
+        "signal_value": "M351 PLC Communication Broken Error"
+    },
+    {
+        "signal_name": "M351",
+        "on_time": "2026-02-09 13:31:37",
+        "off_time": "2026-02-09 14:02:11",
+        "signal_value": "M351 PLC Communication Broken Error"
+    },
+    {
+        "signal_name": "M351",
+        "on_time": "2026-02-09 13:26:20",
+        "off_time": "2026-02-09 13:31:22",
+        "signal_value": "M351 PLC Communication Broken Error"
+    },
+    {
+        "signal_name": "M351",
+        "on_time": "2026-02-05 09:34:56",
+        "off_time": "2026-02-09 13:26:05",
+        "signal_value": "M351 PLC Communication Broken Error"
+    },
+    {
+        "signal_name": "M351",
+        "on_time": "2026-02-04 08:31:49",
+        "off_time": "2026-02-05 09:34:41",
         "signal_value": "M351 PLC Communication Broken Error"
     },
     {
@@ -2974,29 +2998,5 @@
         "on_time": "2025-02-19 14:44:39",
         "off_time": "2025-02-19 14:47:12",
         "signal_value": "M311 Factory Power Status"
-    },
-    {
-        "signal_name": "M321",
-        "on_time": "2025-02-19 14:44:39",
-        "off_time": "2025-02-19 14:47:12",
-        "signal_value": "M321 Power Meter Communication Error"
-    },
-    {
-        "signal_name": "M324",
-        "on_time": "2025-02-19 14:44:39",
-        "off_time": "2025-02-19 14:47:12",
-        "signal_value": "M324 Coolant Return Temperature (T2) Broken Error"
-    },
-    {
-        "signal_name": "M219",
-        "on_time": "2025-02-19 14:44:23",
-        "off_time": "2025-02-19 14:47:12",
-        "signal_value": "M219 Relative Humidity Over Range (Low) Alert (RH)"
-    },
-    {
-        "signal_name": "M226",
-        "on_time": "2025-02-19 14:44:23",
-        "off_time": "2025-02-19 14:47:12",
-        "signal_value": "M226 pH Over Range (Low) Alert (PH)"
     }
 ]

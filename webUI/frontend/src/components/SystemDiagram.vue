@@ -10,11 +10,67 @@ const getIconPath = (name) => {
     return `/img/diagram/${name}`
 }
 
+// Dynamic Style for Thermometers
+const getIconStyle = (key, value) => {
+    if (!key.toLowerCase().includes('temp') && !key.toLowerCase().includes('t5') && !key.toLowerCase().includes('t4') && !key.toLowerCase().includes('ts')) return {}
+    
+    // Parse value
+    const val = parseFloat(value)
+    if (isNaN(val)) return {}
+
+    // Color Logic: Blue < 20, Green 20-40, Red > 40
+    // Note: Since this is light mode, we might need stronger filters or different hue rotations if icons are colored
+    if (val > 40) {
+        return { filter: 'sepia(1) saturate(5) hue-rotate(-50deg)' } // Red-ish
+    } else if (val < 20) {
+        return { filter: 'sepia(1) saturate(5) hue-rotate(180deg)' } // Blue-ish
+    } else {
+        return { filter: 'sepia(1) saturate(2) hue-rotate(50deg)' } // Green-ish
+    }
+}
+
+// Dynamic Class for Text Values
+const getValueClass = (key, value) => {
+    const val = parseFloat(value)
+    if (isNaN(val)) return 'text-gray-800'
+
+    const k = key.toLowerCase()
+
+    // 1. Temperature (Blue < 20, Green 20-40, Red > 40)
+    if (k.includes('temp') || k.includes('t5') || k.includes('t4') || k.includes('ts')) {
+        if (val > 40) return 'text-red-600'
+        if (val < 20) return 'text-blue-600'
+        return 'text-green-600'
+    }
+
+    // 2. Pressure (High > 350 or > 500 depending on sensor? Simplified > 400 Red)
+    // Normal ~ 200-300
+    if (k.includes('prsr') || k.includes('pressure')) {
+         if (val > 400) return 'text-red-600'
+         // Low pressure ignored per user request
+         return 'text-gray-800'
+    }
+
+    // 3. Level (Low < 30 Red)
+    if (k.includes('level')) {
+        if (val < 30) return 'text-red-600'
+        return 'text-blue-700'
+    }
+
+    // 4. Flow (Low < 10 Red)
+    if (k.includes('flow')) {
+        if (val < 10) return 'text-red-500'
+        return 'text-blue-600'
+    }
+    
+    return 'text-gray-800'
+}
+
 const sensors = [
     // === 1. Status & Tank (Top) ===
     // Tank1: Ls(Left), Ps(Top Right), Ts(Bottom Right) 
     // Coords adjusted: Ls(Up-Right), Ps(Right), Ts(Right)
-    { key: 'level_tank', label: 'Ls', icon: '冷卻液液位.png', x: 32.4, y: 11, layout: 'row-val-icon', unit: '%' }, 
+    { key: 'level_tank', label: 'Ls', icon: '冷卻液液位.png', x: 32.2, y: 11, layout: 'row-val-icon', unit: '%' }, 
     { key: 'prsr_tank', label: 'Ps', icon: '氣壓P.png', x: 47.7, y: 9.9, layout: 'row-icon-val', unit: 'bar' },
     { key: 'temp_tank', label: 'Ts', icon: '冷卻液溫度T.png', x: 47.2, y: 20.5, layout: 'row-icon-val', unit: '°C' },
 
@@ -140,23 +196,44 @@ const getStatusBox = computed(() => {
              </div>
         </div>
 
+        <!-- === Dynamic SVG Overlay (New) === -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none z-5" style="overflow: visible;">
+            <!-- Tank Water Level Animation Removed per User Request -->
+            <!-- 1. Tank Water Level Animation (DELETED) -->
+
+            <!-- 2. Dynamic Pipes Flow Animation -->
+
+            <!-- 2. Dynamic Pipes Flow Animation -->
+            <!-- Only show if Flow > 5 LPM -->
+            <g v-if="getValue('flow_clnt') > 5 || getValue('inv1_freq') > 10" class="pipe-flow">
+                <!-- Supply Line (Blue) Path: Pump -> Output -->
+                <path d="M 60 72 L 60 48 L 85 48" fill="none" stroke="#3b82f6" stroke-width="0.5cqw" stroke-dasharray="1 1" class="animate-flow" />
+                
+                <!-- Return Line (Red) Path: Input -> Tank -->
+                <path d="M 85 76 L 74 76 L 74 90 L 40 90 L 40 25" fill="none" stroke="#ef4444" stroke-width="0.5cqw" stroke-dasharray="1 1" class="animate-flow-reverse" />
+            </g>
+        </svg>
+
         <!-- Icons Overlay -->
          <div v-for="s in sensors" :key="s.key" 
              class="absolute flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2 group z-10"
              :style="{ left: s.x + '%', top: s.y + '%' }">
              
             <!-- === Standard Vertical Layout (Default) === -->
-            <!-- Label -> Icon -> Value -->
+            <!-- Standard (Icon Top, Value Bottom) -->
             <template v-if="!s.layout || s.layout === 'vertical'">
                  <!-- Icon (Dynamic Size) -->
                  <div class="relative aspect-square flex items-center justify-center" 
                       :class="s.sizeClass || 'w-[2.5cqw]'">
-                    <img :src="getIconPath(s.icon)" class="w-full h-full object-contain drop-shadow-sm transition-transform hover:scale-110" />
+                    <img :src="getIconPath(s.icon)" 
+                         :style="getIconStyle(s.key, getValue(s.key))"
+                         class="w-full h-full object-contain drop-shadow-sm transition-transform hover:scale-110 transition-all duration-500" />
                 </div>
                  <!-- Label (Dynamic Font Size) -->
                  <div class="absolute -top-[1cqw] font-bold text-gray-800 uppercase whitespace-nowrap drop-shadow-md" 
                       :class="s.labelSizeClass || 'text-[0.8cqw]'">{{ s.label }}</div>
-                <div class="mt-[0.2cqw] px-[0.3cqw] py-[0.1cqw] bg-yellow-100 hover:bg-white border border-yellow-200 rounded-[0.3cqw] text-[1cqw] font-mono font-bold text-gray-800 min-w-[2.5cqw] text-center shadow-sm">
+                <div class="mt-[0.2cqw] px-[0.3cqw] py-[0.1cqw] bg-yellow-100 hover:bg-white border border-yellow-200 rounded-[0.3cqw] text-[1cqw] font-mono font-bold min-w-[2.5cqw] text-center shadow-sm"
+                     :class="getValueClass(s.key, getValue(s.key))">
                      {{ getValue(s.key) }} <span v-if="s.unit" class="text-[0.7em] text-gray-600">{{ s.unit }}</span>
                 </div>
             </template>
@@ -166,9 +243,12 @@ const getStatusBox = computed(() => {
                 <div class="flex items-center space-x-[0.5cqw] whitespace-nowrap">
                      <span class="text-[0.9cqw] font-bold text-gray-800 uppercase drop-shadow-sm text-right min-w-[2cqw]">{{ s.label }}</span>
                      <div class="relative w-[2.5cqw] aspect-square flex items-center justify-center">
-                        <img :src="getIconPath(s.icon)" class="w-full h-full object-contain drop-shadow-sm transition-transform hover:scale-110" />
+                        <img :src="getIconPath(s.icon)" 
+                             :style="getIconStyle(s.key, getValue(s.key))"
+                             class="w-full h-full object-contain drop-shadow-sm transition-transform hover:scale-110 transition-all duration-500" />
                     </div>
-                    <div class="px-[0.3cqw] py-[0.1cqw] bg-yellow-100 hover:bg-white border border-yellow-200 rounded-[0.3cqw] text-[1cqw] font-mono font-bold text-gray-800 min-w-[3cqw] text-center shadow-sm">
+                    <div class="px-[0.3cqw] py-[0.1cqw] bg-yellow-100 hover:bg-white border border-yellow-200 rounded-[0.3cqw] text-[1cqw] font-mono font-bold min-w-[3cqw] text-center shadow-sm"
+                         :class="getValueClass(s.key, getValue(s.key))">
                          {{ getValue(s.key) }} <span v-if="s.unit" class="text-[0.7em] text-gray-600">{{ s.unit }}</span>
                     </div>
                 </div>
@@ -178,12 +258,15 @@ const getStatusBox = computed(() => {
             <template v-else-if="s.layout === 'row-val-icon'">
                 <div class="flex items-center space-x-[0.3cqw] whitespace-nowrap">
                     <!-- Value (Left) -->
-                    <div class="px-[0.3cqw] py-[0.1cqw] bg-yellow-100 hover:bg-white border border-yellow-200 rounded-[0.3cqw] text-[1cqw] font-mono font-bold text-gray-800 min-w-[3cqw] text-center shadow-sm">
+                    <div class="px-[0.3cqw] py-[0.1cqw] bg-yellow-100 hover:bg-white border border-yellow-200 rounded-[0.3cqw] text-[1cqw] font-mono font-bold min-w-[3cqw] text-center shadow-sm"
+                         :class="getValueClass(s.key, getValue(s.key))">
                          {{ getValue(s.key) }} <span v-if="s.unit" class="text-[0.7em] text-gray-600">{{ s.unit }}</span>
                     </div>
                     <!-- Icon (Right) -->
                      <div class="relative w-[2.5cqw] aspect-square flex items-center justify-center">
-                        <img :src="getIconPath(s.icon)" class="w-full h-full object-contain drop-shadow-sm transition-transform hover:scale-110" />
+                        <img :src="getIconPath(s.icon)" 
+                             :style="getIconStyle(s.key, getValue(s.key))"
+                             class="w-full h-full object-contain drop-shadow-sm transition-transform hover:scale-110 transition-all duration-500" />
                         <!-- Label Below -->
                         <div class="absolute -bottom-[1cqw] text-[0.8cqw] font-bold text-gray-800 uppercase whitespace-nowrap drop-shadow-md">{{ s.label }}</div>
                     </div>
@@ -195,13 +278,16 @@ const getStatusBox = computed(() => {
                 <div class="flex items-center space-x-[0.3cqw] whitespace-nowrap">
                     <!-- Icon (Left) -->
                      <div class="relative w-[2.5cqw] aspect-square flex items-center justify-center">
-                        <img :src="getIconPath(s.icon)" class="w-full h-full object-contain drop-shadow-sm transition-transform hover:scale-110" />
+
+                        <img :src="getIconPath(s.icon)" 
+                             :style="getIconStyle(s.key, getValue(s.key))"
+                             class="w-full h-full object-contain drop-shadow-sm transition-transform hover:scale-110 transition-all duration-500" />
                         <!-- Label Below -->
                         <div class="absolute -bottom-[1cqw] text-[0.8cqw] font-bold text-gray-800 uppercase whitespace-nowrap drop-shadow-md">{{ s.label }}</div>
                     </div>
-                    <!-- Value (Right) -->
-                    <div class="px-[0.3cqw] py-[0.1cqw] bg-yellow-100 hover:bg-white border border-yellow-200 rounded-[0.3cqw] text-[1cqw] font-mono font-bold text-gray-800 min-w-[3cqw] text-center shadow-sm">
-                         {{ getValue(s.key) }} <span v-if="s.unit" class="text-[0.7em] text-gray-600">{{ s.unit }}</span>
+                    <div class="px-[0.3cqw] py-[0.1cqw] bg-yellow-100 hover:bg-white border border-yellow-200 rounded-[0.3cqw] text-[1cqw] font-mono font-bold min-w-[3cqw] text-center shadow-sm"
+                         :class="getValueClass(s.key, getValue(s.key))">
+                        {{ getValue(s.key) }} <span v-if="s.unit" class="text-[0.7em] text-gray-400">{{ s.unit }}</span>
                     </div>
                 </div>
             </template>
