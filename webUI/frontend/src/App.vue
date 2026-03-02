@@ -11,7 +11,8 @@ import {
   PresentationChartLineIcon,
   LifebuoyIcon,
   CloudArrowDownIcon,
-  ComputerDesktopIcon
+  ComputerDesktopIcon,
+  LanguageIcon
 } from '@heroicons/vue/24/outline'
 
 const router = useRouter()
@@ -20,16 +21,54 @@ let kioskInterval = null
 const rotationPages = ['/status', '/trends']
 let currentRotationIndex = 0
 
+// --- Lightweight i18n System ---
+const currentLang = ref(localStorage.getItem('preferredLang') || 'zh') // Default to Traditional Chinese
+
+const translations = {
+  zh: {
+    'nav.status': '狀態總覽',
+    'nav.control': '設備控制',
+    'nav.trends': '趨勢分析',
+    'nav.maint': '維護保養',
+    'nav.backup': '系統備份',
+    'nav.network': '網路通訊',
+    'nav.logs': '系統日誌',
+    'nav.engineer': '工程模式',
+    'nav.settings': '系統設定'
+  },
+  en: {
+    'nav.status': 'Status',
+    'nav.control': 'Control',
+    'nav.trends': 'Trends',
+    'nav.maint': 'Maint.',
+    'nav.backup': 'Backup',
+    'nav.network': 'Network',
+    'nav.logs': 'Logs',
+    'nav.engineer': 'Engineer',
+    'nav.settings': 'Settings'
+  }
+}
+
+const t = (key) => {
+  return translations[currentLang.value][key] || key
+}
+
+const toggleLanguage = () => {
+    currentLang.value = currentLang.value === 'zh' ? 'en' : 'zh'
+    localStorage.setItem('preferredLang', currentLang.value)
+}
+// ------------------------------
+
 const navItems = [
-  { path: '/status', label: 'Status', icon: ChartBarIcon },
-  { path: '/control', label: 'Control', icon: AdjustmentsHorizontalIcon },
-  { path: '/trends', label: 'Trends', icon: PresentationChartLineIcon },
-  { path: '/maintenance', label: 'Maint.', icon: LifebuoyIcon },
-  { path: '/backup', label: 'Backup', icon: CloudArrowDownIcon },
-  { path: '/network', label: 'Network', icon: GlobeAltIcon },
-  { path: '/logs', label: 'Logs', icon: ClipboardDocumentListIcon },
-  { path: '/engineer-mode', label: 'Engineer', icon: WrenchScrewdriverIcon },
-  { path: '/settings', label: 'Settings', icon: Cog6ToothIcon }
+  { path: '/status', labelKey: 'nav.status', icon: ChartBarIcon },
+  { path: '/control', labelKey: 'nav.control', icon: AdjustmentsHorizontalIcon },
+  { path: '/trends', labelKey: 'nav.trends', icon: PresentationChartLineIcon },
+  { path: '/maintenance', labelKey: 'nav.maint', icon: LifebuoyIcon },
+  { path: '/backup', labelKey: 'nav.backup', icon: CloudArrowDownIcon },
+  { path: '/network', labelKey: 'nav.network', icon: GlobeAltIcon },
+  { path: '/logs', labelKey: 'nav.logs', icon: ClipboardDocumentListIcon },
+  { path: '/engineer-mode', labelKey: 'nav.engineer', icon: WrenchScrewdriverIcon },
+  { path: '/settings', labelKey: 'nav.settings', icon: Cog6ToothIcon }
 ]
 
 const toggleKioskMode = () => {
@@ -112,8 +151,16 @@ onUnmounted(() => {
           active-class="text-blue-500 font-bold bg-gray-800"
           >
             <component :is="item.icon" class="h-5 w-5" />
-            <span>{{ item.label }}</span>
+            <span>{{ t(item.labelKey) }}</span>
           </router-link>
+
+          <!-- Language Toggle -->
+          <button @click="toggleLanguage" 
+                  title="Toggle Language" 
+                  class="flex items-center space-x-1 px-3 py-1.5 ml-2 rounded-md bg-gray-800 border border-gray-700 hover:border-blue-500 hover:bg-gray-700 text-sm font-bold text-gray-300 transition-colors">
+              <LanguageIcon class="w-4 h-4" />
+              <span>{{ currentLang === 'zh' ? '中(繁)' : 'EN' }}</span>
+          </button>
 
           <!-- Kiosk Mode Toggle -->
           <div class="border-l border-gray-700 h-6 mx-2"></div>

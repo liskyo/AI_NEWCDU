@@ -1,56 +1,14 @@
 [
     {
-        "signal_name": "M3_Pressure_High",
-        "on_time": "2026-03-02 14:49:59",
-        "off_time": null,
-        "signal_value": "System Pressure Abnormal (TEST SIM)"
-    },
-    {
-        "signal_name": "M2_Pump_Fail",
-        "on_time": "2026-03-02 14:49:29",
-        "off_time": "2026-03-02 14:49:44",
-        "signal_value": "Pump 1 failed to start (TEST SIM)"
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-03-02 15:24:16",
+        "off_time": "2026-03-02 15:24:31",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
     },
     {
         "signal_name": "M3_Leakage_Detected",
-        "on_time": "2026-03-02 14:48:59",
-        "off_time": "2026-03-02 14:49:14",
+        "on_time": "2026-03-02 15:23:46",
+        "off_time": "2026-03-02 15:24:01",
         "signal_value": "Fluid Leakage Detected in Cabinet (TEST SIM)"
-    },
-    {
-        "signal_name": "M2_Pump_Fail",
-        "on_time": "2026-03-02 14:48:29",
-        "off_time": "2026-03-02 14:48:44",
-        "signal_value": "Pump 1 failed to start (TEST SIM)"
-    },
-    {
-        "signal_name": "M3_Leakage_Detected",
-        "on_time": "2026-03-02 14:47:59",
-        "off_time": "2026-03-02 14:48:14",
-        "signal_value": "Fluid Leakage Detected in Cabinet (TEST SIM)"
-    },
-    {
-        "signal_name": "M3_Leakage_Detected",
-        "on_time": "2026-03-02 14:47:29",
-        "off_time": "2026-03-02 14:47:44",
-        "signal_value": "Fluid Leakage Detected in Cabinet (TEST SIM)"
-    },
-    {
-        "signal_name": "M351",
-        "on_time": "2026-03-02 14:46:57",
-        "off_time": null,
-        "signal_value": "M351 PLC Communication Broken Error"
-    },
-    {
-        "signal_name": "M351",
-        "on_time": "2026-03-02 14:25:44",
-        "off_time": "2026-03-02 14:46:42",
-        "signal_value": "M351 PLC Communication Broken Error"
-    },
-    {
-        "signal_name": "M351",
-        "on_time": "2026-03-02 13:34:53",
-        "off_time": "2026-03-02 14:25:29",
-        "signal_value": "M351 PLC Communication Broken Error"
     }
 ]
