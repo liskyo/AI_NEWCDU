@@ -8141,6 +8141,72 @@ def get_downtime_signal_records():
         return jsonify([])
 
 
+@app.route("/api/generate_test_logs", methods=["POST"])
+def generate_test_logs_api():
+    try:
+        from datetime import datetime, timedelta
+        import json
+        import os
+
+        now = datetime.now()
+        log_json_path = f"{web_path}/json"
+        if not os.path.exists(log_json_path):
+            os.makedirs(log_json_path)
+
+        # 1. Fake ALL LOGS
+        all_logs = [
+            {
+                "signal_name": "M3_CoolantTemp_High",
+                "on_time": (now - timedelta(minutes=10)).strftime("%Y-%m-%d %H:%M:%S"),
+                "off_time": (now - timedelta(minutes=5)).strftime("%Y-%m-%d %H:%M:%S"),
+                "severity": "Warning",
+                "signal_value": "Coolant Temperature above 50°C"
+            },
+            {
+                "signal_name": "M2_Pump_Fail",
+                "on_time": (now - timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S"),
+                "off_time": "",
+                "severity": "Alert",
+                "signal_value": "Pump 1 failed to start"
+            },
+            {
+                "signal_name": "Sys_Info",
+                "on_time": (now - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
+                "off_time": (now - timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"),
+                "severity": "Info",
+                "signal_value": "System User Login: admin"
+            }
+        ]
+
+        # 2. Fake SHUTDOWN LOGS
+        shutdown_logs = [
+            {
+                "signal_name": "M2_Emergency_Stop",
+                "on_time": (now - timedelta(days=3)).strftime("%Y-%m-%d %H:%M:%S"),
+                "off_time": (now - timedelta(days=2)).strftime("%Y-%m-%d %H:%M:%S"),
+                "severity": "Alert",
+                "signal_value": "Emergency Stop Button Triggered"
+            }
+        ]
+
+        # Write to files
+        with open(f"{log_json_path}/signal_records.json", "w", encoding="utf-8") as f:
+            json.dump(all_logs, f, indent=4)
+
+        with open(f"{log_json_path}/downtime_signal_records.json", "w", encoding="utf-8") as f:
+            json.dump(shutdown_logs, f, indent=4)
+
+        # Reload in memory
+        global signal_records, downtime_signal_records
+        load_signal_records()
+        load_downtime_signal_records()
+        
+        return jsonify({"success": True}), 200
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/delete_signal_records", methods=["POST"])
 def delete_signal_records():
     data = request.get_json()

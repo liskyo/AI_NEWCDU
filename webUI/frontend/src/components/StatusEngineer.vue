@@ -299,7 +299,7 @@ const deviceStatuses = computed(() => {
 })
 
 const systemAlarm = computed(() => {
-    return sensorData.value?.value?.system_alarm || 'M351 PLC Communication Broken Error' // Defaulting for demo
+    return sensorData.value?.value?.system_alarm || '' 
 })
 
 // Mock Data Generator (Comprehensive)
@@ -393,7 +393,7 @@ const generateMockData = () => {
             ats_status: 'OFF',
             pc1_status: 'OK',
             pc2_status: 'OK',
-            system_alarm: 'M351 PLC Communication Broken Error'
+            system_alarm: ''
         }
     }
 }

@@ -95,14 +95,14 @@ const fetchLogs = async (type = 'all', page = 1, isBackground = false) => {
         const data = response.data
         
         if (type === 'all') {
-            allLogs.value = data.records
-            totalPagesAll.value = data.total_pages
-            totalRecordsAll.value = data.total_records
+            allLogs.value = data.records || []
+            totalPagesAll.value = data.total_pages || 1
+            totalRecordsAll.value = data.total_records || 0
             currentPageAll.value = page
         } else {
-            shutdownLogs.value = data.records
-            totalPagesShutdown.value = data.total_pages
-            totalRecordsShutdown.value = data.total_records
+            shutdownLogs.value = data.records || []
+            totalPagesShutdown.value = data.total_pages || 1
+            totalRecordsShutdown.value = data.total_records || 0
             currentPageShutdown.value = page
         }
         
@@ -130,7 +130,60 @@ const formatDate = (dateString) => {
     return dateString
 }
 
-// ... (abridged)
+const getSeverityClass = (signalName) => {
+    if (!signalName) return 'bg-gray-800 text-gray-400'
+    if (signalName.startsWith('M2')) return 'bg-red-900/50 text-red-400 border border-red-500/30'
+    if (signalName.startsWith('M3')) return 'bg-yellow-900/50 text-yellow-400 border border-yellow-500/30'
+    return 'bg-blue-900/50 text-blue-400 border border-blue-500/30'
+}
+
+const getSeverityLabel = (signalName) => {
+    if (!signalName) return 'INFO'
+    if (signalName.startsWith('M2')) return 'ALERT'
+    if (signalName.startsWith('M3')) return 'WARNING'
+    return 'INFO'
+}
+
+const deleteSelected = async () => {
+    const toDelete = []
+    const source = activeTab.value === 'all' ? selectedAll.value : selectedShutdown.value
+    
+    for (const [key, isSelected] of Object.entries(source)) {
+        if (isSelected) {
+            toDelete.push(key.split('-')[0]) // Extract signal_name
+        }
+    }
+
+    if (toDelete.length === 0) return
+    
+    if (!confirm(`Are you sure you want to delete ${toDelete.length} log entries?`)) return
+
+    try {
+        loading.value = true
+        await axios.post('/delete_signal_records', { signals: toDelete })
+        // Clear selection
+        if (activeTab.value === 'all') selectedAll.value = {}
+        else selectedShutdown.value = {}
+        refreshCurrent()
+    } catch (error) {
+        console.error('Error deleting logs:', error)
+        alert('Failed to delete logs. See console.')
+    } finally {
+        loading.value = false
+    }
+}
+
+const toggleSelectAll = (checked) => {
+    const records = activeTab.value === 'all' ? allLogs.value : shutdownLogs.value
+    const selection = {}
+    if (checked) {
+        records.forEach(log => {
+            selection[`${log.signal_name}-${log.on_time}`] = true
+        })
+    }
+    if (activeTab.value === 'all') selectedAll.value = selection
+    else selectedShutdown.value = selection
+}
 
 onMounted(() => {
     fetchLogs('all', 1)
@@ -139,6 +192,18 @@ onMounted(() => {
         if (!loading.value) refreshCurrent(true)
     }, 5000)
 })
+
+const generateTestLogs = async () => {
+    loading.value = true
+    try {
+        await axios.post('/api/generate_test_logs')
+        setTimeout(() => refreshCurrent(), 500) // Small delay to let backend write file
+    } catch (error) {
+        console.error('Error generating test logs:', error)
+    } finally {
+        loading.value = false
+    }
+}
 </script>
 
 <template>
@@ -192,11 +257,17 @@ onMounted(() => {
                     </button>
                 </div>
 
-                <button @click="deleteSelected" 
-                        class="px-4 py-2 bg-red-900/30 border border-red-500/50 text-red-400 hover:bg-red-900/60 hover:text-red-300 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center transition-all shadow-sm">
-                    <TrashIcon class="w-4 h-4 mr-2" />
-                    Delete Selected
-                </button>
+                <div class="flex items-center space-x-3">
+                    <button @click="generateTestLogs" 
+                            class="px-4 py-2 bg-cyan-900/30 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-900/60 hover:text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center transition-all shadow-sm">
+                        Test Log
+                    </button>
+                    <button @click="deleteSelected" 
+                            class="px-4 py-2 bg-red-900/30 border border-red-500/50 text-red-400 hover:bg-red-900/60 hover:text-red-300 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center transition-all shadow-sm">
+                        <TrashIcon class="w-4 h-4 mr-2" />
+                        Delete Selected
+                    </button>
+                </div>
             </div>
 
             <!-- Table Card -->
