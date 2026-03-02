@@ -1,28 +1,28 @@
 [
     {
         "signal_name": "M351",
-        "on_time": "2026-03-02 10:59:40",
+        "on_time": "2026-03-02 11:11:38",
         "off_time": null,
         "signal_value": "M351 PLC Communication Broken Error"
     },
     {
         "signal_name": "M3_CoolantTemp_High",
-        "on_time": "2026-03-02 10:49:38",
-        "off_time": "2026-03-02 10:54:38",
+        "on_time": "2026-03-02 11:01:34",
+        "off_time": "2026-03-02 11:06:34",
         "severity": "Warning",
         "signal_value": "Coolant Temperature above 50\u00b0C"
     },
     {
         "signal_name": "M2_Pump_Fail",
-        "on_time": "2026-03-02 08:59:38",
+        "on_time": "2026-03-02 09:11:34",
         "off_time": "",
         "severity": "Alert",
         "signal_value": "Pump 1 failed to start"
     },
     {
         "signal_name": "Sys_Info",
-        "on_time": "2026-03-01 10:59:38",
-        "off_time": "2026-03-01 10:59:38",
+        "on_time": "2026-03-01 11:11:34",
+        "off_time": "2026-03-01 11:11:34",
         "severity": "Info",
         "signal_value": "System User Login: admin"
     }

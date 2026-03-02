@@ -147,10 +147,16 @@ const getSeverityLabel = (signalName) => {
 const deleteSelected = async () => {
     const toDelete = []
     const source = activeTab.value === 'all' ? selectedAll.value : selectedShutdown.value
+    const endpoint = activeTab.value === 'all' ? '/delete_signal_records' : '/delete_downtime_signal_records'
     
     for (const [key, isSelected] of Object.entries(source)) {
         if (isSelected) {
-            toDelete.push(key.split('-')[0]) // Extract signal_name
+            // Key is 'signal_name-on_time'. Need to careful split since on_time contains hyphens (YYYY-MM-DD...)
+            const firstDash = key.indexOf('-')
+            const signal_name = key.substring(0, firstDash)
+            const on_time = key.substring(firstDash + 1)
+            
+            toDelete.push({ signal_name, on_time }) 
         }
     }
 
@@ -160,7 +166,7 @@ const deleteSelected = async () => {
 
     try {
         loading.value = true
-        await axios.post('/delete_signal_records', { signals: toDelete })
+        await axios.post(endpoint, { signals: toDelete })
         // Clear selection
         if (activeTab.value === 'all') selectedAll.value = {}
         else selectedShutdown.value = {}

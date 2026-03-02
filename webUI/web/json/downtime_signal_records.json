@@ -1,9 +1,1 @@
-[
-    {
-        "signal_name": "M2_Emergency_Stop",
-        "on_time": "2026-02-27 10:59:38",
-        "off_time": "2026-02-28 10:59:38",
-        "severity": "Alert",
-        "signal_value": "Emergency Stop Button Triggered"
-    }
-]
+[]
