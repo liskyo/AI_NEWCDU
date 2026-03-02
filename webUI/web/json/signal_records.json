@@ -1,6 +1,120 @@
 [
     {
         "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-03-02 15:33:48",
+        "off_time": null,
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-03-02 15:33:18",
+        "off_time": "2026-03-02 15:33:33",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-03-02 15:32:48",
+        "off_time": "2026-03-02 15:33:03",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-03-02 15:32:17",
+        "off_time": "2026-03-02 15:32:33",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-03-02 15:31:47",
+        "off_time": "2026-03-02 15:32:02",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_Leakage_Detected",
+        "on_time": "2026-03-02 15:31:17",
+        "off_time": "2026-03-02 15:31:32",
+        "signal_value": "Fluid Leakage Detected in Cabinet (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-03-02 15:30:47",
+        "off_time": "2026-03-02 15:31:02",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-03-02 15:30:17",
+        "off_time": "2026-03-02 15:30:32",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-03-02 15:29:47",
+        "off_time": "2026-03-02 15:30:02",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_Leakage_Detected",
+        "on_time": "2026-03-02 15:29:17",
+        "off_time": "2026-03-02 15:29:32",
+        "signal_value": "Fluid Leakage Detected in Cabinet (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_Leakage_Detected",
+        "on_time": "2026-03-02 15:28:47",
+        "off_time": "2026-03-02 15:29:02",
+        "signal_value": "Fluid Leakage Detected in Cabinet (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-03-02 15:28:17",
+        "off_time": "2026-03-02 15:28:32",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-03-02 15:27:47",
+        "off_time": "2026-03-02 15:28:02",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-03-02 15:27:17",
+        "off_time": "2026-03-02 15:27:32",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Emergency_Stop",
+        "on_time": "2026-03-02 15:26:47",
+        "off_time": "2026-03-02 15:27:02",
+        "signal_value": "Emergency Stop Triggered (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_Pressure_High",
+        "on_time": "2026-03-02 15:26:16",
+        "off_time": "2026-03-02 15:26:31",
+        "signal_value": "System Pressure Abnormal (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_Pressure_High",
+        "on_time": "2026-03-02 15:25:46",
+        "off_time": "2026-03-02 15:26:01",
+        "signal_value": "System Pressure Abnormal (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_Pressure_High",
+        "on_time": "2026-03-02 15:25:16",
+        "off_time": "2026-03-02 15:25:31",
+        "signal_value": "System Pressure Abnormal (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-03-02 15:24:46",
+        "off_time": "2026-03-02 15:25:01",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
         "on_time": "2026-03-02 15:24:16",
         "off_time": "2026-03-02 15:24:31",
         "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
