@@ -1,8 +1,20 @@
 [
     {
         "signal_name": "M351",
-        "on_time": "2026-02-09 14:02:11",
+        "on_time": "2026-03-02 10:32:13",
         "off_time": null,
+        "signal_value": "M351 PLC Communication Broken Error"
+    },
+    {
+        "signal_name": "M351",
+        "on_time": "2026-03-02 10:17:01",
+        "off_time": "2026-03-02 10:31:58",
+        "signal_value": "M351 PLC Communication Broken Error"
+    },
+    {
+        "signal_name": "M351",
+        "on_time": "2026-02-09 14:02:11",
+        "off_time": "2026-03-02 10:16:46",
         "signal_value": "M351 PLC Communication Broken Error"
     },
     {
@@ -2986,17 +2998,5 @@
         "on_time": "2025-02-19 14:44:39",
         "off_time": "2025-02-19 14:47:12",
         "signal_value": "M223 Condensation Alert (T Dp)"
-    },
-    {
-        "signal_name": "M225",
-        "on_time": "2025-02-19 14:44:39",
-        "off_time": "2025-02-19 14:47:12",
-        "signal_value": "M225 Facility Water Flow Rate (Low) Alert (F2)"
-    },
-    {
-        "signal_name": "M311",
-        "on_time": "2025-02-19 14:44:39",
-        "off_time": "2025-02-19 14:47:12",
-        "signal_value": "M311 Factory Power Status"
     }
 ]

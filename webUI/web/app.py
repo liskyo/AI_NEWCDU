@@ -28,7 +28,6 @@ from flask import (
     g,
     jsonify,
     redirect,
-    render_template,
     request,
     send_from_directory,
     session,
@@ -5155,21 +5154,6 @@ def read_modbus_data():
 
         time.sleep(0.9)
 
-
-@app.route("/")
-def login_page():
-    return render_template("login.html")
-
-
-@app.route("/status")
-@login_required
-def statusEngineer():
-    return render_template(
-        "status_Engineer.html",
-        user=current_user.id,
-    )
-
-
 @app.route("/api/status")
 def api_status():
     try:
@@ -5181,65 +5165,15 @@ def api_status():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
-@app.route("/download_logs")
-@login_required
-def download_logs():
-    files = os.listdir(f"{log_path}/logs")
-    print(files)
-    return render_template("download.html", files=files, user=current_user.id)
-
-
 @app.route("/download_logs/<path:filename>")
 @login_required
 def download(filename):
     return send_from_directory(f"{log_path}/logs", filename, as_attachment=True)
 
-
-@app.route("/sensor_logs")
-@login_required
-def sensor_logs():
-    directory = f"{log_path}/logs/sensor"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    files = os.listdir(f"{log_path}/logs/sensor")
-
-    files = [f for f in files if not (f.startswith(".__") or f == ".DS_Store")]
-
-    sorted_files = sorted(
-        files, key=lambda x: x.split(".")[-2].split(".")[0], reverse=True
-    )
-
-    return render_template("sensorLog.html", files=sorted_files, user=current_user.id)
-
-
 @app.route("/sensor_logs/<path:filename>")
 @login_required
 def download_sensor_logs(filename):
     return send_from_directory(f"{log_path}/logs/sensor", filename, as_attachment=True)
-
-
-@app.route("/operation_logs")
-@login_required
-def operation_logs():
-    directory = f"{log_path}/logs/operation"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    files = os.listdir(f"{log_path}/logs/operation")
-
-    files = [f for f in files if not (f.startswith(".__") or f == ".DS_Store")]
-    sorted_files = sorted(
-        files,
-        key=lambda x: (x != "oplog.log", x.split(".")[-1] if x != "oplog.log" else ""),
-        reverse=True,
-    )
-    if "oplog.log" in sorted_files:
-        sorted_files.insert(0, sorted_files.pop(sorted_files.index("oplog.log")))
-
-    return render_template(
-        "operationLog.html", files=sorted_files, user=current_user.id
-    )
-
 
 @app.route("/operation_logs/<path:filename>")
 @login_required
@@ -5248,64 +5182,12 @@ def download_operation_logs(filename):
         f"{log_path}/logs/operation", filename, as_attachment=True
     )
 
-
-@app.route("/operation_logs_restapi")
-@login_required
-def operation_logs_restapi():
-    directory = f"{snmp_path}/RestAPI/logs/operation"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    files = os.listdir(f"{snmp_path}/RestAPI/logs/operation")
-
-    files = [f for f in files if not (f.startswith(".__") or f == ".DS_Store")]
-    sorted_files = sorted(
-        files,
-        key=lambda x: (
-            x != "oplog_api.log",
-            x.split(".")[-1] if x != "oplog_api.log" else "",
-        ),
-        reverse=True,
-    )
-    if "oplog_api.log" in sorted_files:
-        sorted_files.insert(0, sorted_files.pop(sorted_files.index("oplog_api.log")))
-
-    return render_template(
-        "operationLogRestAPI.html", files=sorted_files, user=current_user.id
-    )
-
-
 @app.route("/operation_logs_restapi/<path:filename>")
 @login_required
 def download_operation_logs_restapi(filename):
     return send_from_directory(
         f"{snmp_path}/RestAPI/logs/operation", filename, as_attachment=True
     )
-
-
-@app.route("/error_logs")
-@login_required
-def error_logs():
-    directory = f"{log_path}/logs/error"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    files = os.listdir(f"{log_path}/logs/error")
-
-    files = [f for f in files if not (f.startswith(".__") or f == ".DS_Store")]
-
-    sorted_files = sorted(
-        files,
-        key=lambda x: (
-            x != "errorlog.log",
-            x.split(".")[-1] if x != "errorlog.log" else "",
-        ),
-        reverse=True,
-    )
-
-    if "errorlog.log" in sorted_files:
-        sorted_files.insert(0, sorted_files.pop(sorted_files.index("errorlog.log")))
-
-    return render_template("errorLog.html", files=sorted_files, user=current_user.id)
-
 
 @app.route("/error_logs/<path:filename>")
 @login_required
@@ -5321,49 +5203,6 @@ def logout():
     logout_user()
     session.pop("username", None)
     return redirect("/")
-
-
-@app.route("/network")
-@login_required
-def network():
-    return render_template("network.html", user=current_user.id)
-
-
-@app.route("/error_logs_table")
-@login_required
-def error_logs_table():
-    return render_template("errorLogTable.html", user=current_user.id)
-
-
-@app.route("/systemset")
-@login_required
-def systemset():
-    return render_template("systemSetting.html", user=current_user.id)
-
-
-@app.route("/fwStatus")
-@login_required
-def fwStatus():
-    return render_template("fwStatus.html", user=current_user.id)
-
-
-@app.route("/inspection")
-@login_required
-def inspection():
-    return render_template("inspection.html", user=current_user.id)
-
-
-@app.route("/modbus")
-@login_required
-def Page():
-    return render_template("modbus.html")
-
-
-@app.route("/engineerMode")
-@login_required
-def engineerMode():
-    return render_template("engineerMode.html", user=current_user.id)
-
 
 @app.route("/get_data")
 @login_required
@@ -5445,13 +5284,6 @@ def get_data_systemset():
 @login_required
 def get_data_version():
     return jsonify(ver_switch)
-
-
-@app.route("/control")
-@login_required
-def controlPage():
-    return render_template("control.html", user=current_user.id)
-
 
 @app.route("/set_operation_mode", methods=["POST"])
 @login_required
