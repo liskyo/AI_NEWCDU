@@ -198,6 +198,120 @@ imperial_valve_factory = {}
 mode_input = {}
 export_data = {}
 
+# --- Global Demo Mode ---
+DEMO_MODE = False
+
+@app.route("/api/toggle_demo_mode", methods=["POST"])
+def toggle_demo_mode_api():
+    global DEMO_MODE, _demo_alarm_state
+    data = request.json
+    if data and "demo_mode" in data:
+        DEMO_MODE = bool(data["demo_mode"])
+    else:
+        DEMO_MODE = not DEMO_MODE
+        
+    # Clean up active demo alarms when turning off demo mode
+    if not DEMO_MODE and '_demo_alarm_state' in globals() and _demo_alarm_state.get("active_alarm"):
+        record_signal_off(_demo_alarm_state["active_alarm"]["name"], _demo_alarm_state["active_alarm"]["msg"])
+        _demo_alarm_state["active_alarm"] = None
+
+    op_logger.info(f"DEMO_MODE toggled to: {DEMO_MODE}")
+    return jsonify({"success": True, "demo_mode": DEMO_MODE}), 200
+
+@app.route("/api/demo_mode_status", methods=["GET"])
+def demo_mode_status_api():
+    global DEMO_MODE
+    return jsonify({"demo_mode": DEMO_MODE}), 200
+
+def generate_demo_sensor_data():
+    """Generates lively mock PLC data when DEMO_MODE is True for showcase purposes."""
+    global sensorData
+    t = time.time()
+    def sine(offset, speed=1):
+        return (math.sin(t * speed + offset) + 1) / 2
+        
+    tankLevel = 20 + sine(0, 0.5) * 70 
+    tempSim = 15 + sine(2, 0.3) * 40 
+    flowSim = 30 + sine(0, 2) * 30 if sine(4, 0.8) > 0.2 else 0
+    pumpSpeed = 40 + sine(0, 1) * 60 if flowSim > 0 else 0
+
+    sensorData["value"].update({
+        "opMod": 'AUTO',
+        "power": round(3.5 + sine(1) * 2, 1),
+        "current": round(12.5 + sine(2) * 5, 1),
+        "AC": 12.6,
+        "heat_capacity": 45.2,
+        
+        "temp_clntSply": round(tempSim, 1),
+        "temp_clntSplySpr": round(tempSim, 1),
+        "temp_clntRtn": round(tempSim + 5, 1),
+        "prsr_clntSply": round(2.5 + sine(3) * 0.5, 1),
+        "prsr_clntSplySpr": 2.4,
+        "prsr_clntRtn": 1.5,
+        "prsr_clntRtnSpr": 1.4,
+        "prsr_diff": 1.0,
+        "flow_clnt": round(flowSim, 1),
+        
+        "temp_waterIn": round(20.5 + sine(4) * 2, 1),
+        "temp_waterOut": round(35.2 + sine(5) * 2, 1),
+        "prsr_wtrIn": 3.2,
+        "prsr_wtrOut": 3.0,
+        "flow_wtr": 50.1,
+        
+        "temp_ambient": 24.5,
+        "dewPt": 12.0,
+        "rltHmd": 45,
+        "pH": 7.2,
+        "cdct": 15.5,
+        "tbd": 0.5,
+        
+        "inv1_freq": round(pumpSpeed, 0),
+        "inv2_freq": 0,
+        "WaterPV": 62,
+        "level_tank": round(tankLevel, 1),
+        "level1": bool(tankLevel > 30),
+        "level2": bool(tankLevel > 60),
+        "level3": bool(tankLevel > 90),
+        "powerSupply1": True,
+        "powerSupply2": True,
+        "ev1": True, "ev2": True, "ev3": True, "ev4": True,
+        
+        "prsr_fltIn": 2.8,
+        "prsr_fltmax": 2.7,
+        "prsr_flt1Out": 2.7, "prsr_flt2Out": 2.6, "prsr_flt3Out": 2.5, "prsr_flt4Out": 2.4, "prsr_flt5Out": 2.3,
+        
+        "ev_pv1_status": 'OK', "ev1_status": 'OK', "ev2_status": 'OK', "ev3_status": 'OK', "ev4_status": 'OK',
+        "leakage_status": 'OK', "inv1_error": 'OK', "inv2_error": 'OK', "inv1_overload": 'OK', "inv2_overload": 'OK',
+        "plc_status": 'OK', "ats_status": 'OFF', "pc1_status": 'OK', "pc2_status": 'OK',
+        "system_alarm": ""
+    })
+
+    # --- Simulated Log Events ---
+    global _demo_alarm_state
+    if '_demo_alarm_state' not in globals():
+        _demo_alarm_state = {"last_toggle": t, "active_alarm": None}
+    
+    # Toggle a fake alarm every 15 seconds
+    if t - _demo_alarm_state["last_toggle"] > 15:
+        _demo_alarm_state["last_toggle"] = t
+        import random
+        
+        if _demo_alarm_state["active_alarm"]:
+            # Turn off the active alarm
+            record_signal_off(_demo_alarm_state["active_alarm"]["name"], _demo_alarm_state["active_alarm"]["msg"])
+            _demo_alarm_state["active_alarm"] = None
+        else:
+            # Turn on a new random alarm
+            alarms = [
+                {"name": "M3_CoolantTemp_High", "msg": "Coolant Temperature above 50°C (TEST SIM)"},
+                {"name": "M2_Pump_Fail", "msg": "Pump 1 failed to start (TEST SIM)"},
+                {"name": "M3_Pressure_High", "msg": "System Pressure Abnormal (TEST SIM)"},
+                {"name": "M3_Leakage_Detected", "msg": "Fluid Leakage Detected in Cabinet (TEST SIM)"},
+                {"name": "M2_Emergency_Stop", "msg": "Emergency Stop Triggered (TEST SIM)"}
+            ]
+            chosen = random.choice(alarms)
+            record_signal_on(chosen["name"], chosen["msg"])
+            _demo_alarm_state["active_alarm"] = chosen
 
 sensorData = {
     "value": {
@@ -3928,6 +4042,15 @@ def read_modbus_data():
     alert_count = 0
 
     while True:
+        global DEMO_MODE
+        if DEMO_MODE:
+            generate_demo_sensor_data()
+            read_data["control"] = False
+            read_data["engineerMode"] = False
+            read_data["systemset"] = False
+            time.sleep(1)
+            continue
+            
         try:
             with ModbusTcpClient(
                 host=modbus_host, port=modbus_port, unit=modbus_slave_id
@@ -5156,6 +5279,10 @@ def read_modbus_data():
 
 @app.route("/api/status")
 def api_status():
+    global DEMO_MODE
+    if DEMO_MODE:
+        return jsonify(sensorData)
+        
     try:
         # Note: In production, add @login_required. For dev/demo, allowing loose access to facilitate Vue dev server.
         # But if we use session auth, we need credentials passed.
@@ -5166,37 +5293,31 @@ def api_status():
         return jsonify({"error": str(e)}), 500
 
 @app.route("/download_logs/<path:filename>")
-@login_required
 def download(filename):
     return send_from_directory(f"{log_path}/logs", filename, as_attachment=True)
 
 @app.route("/sensor_logs/<path:filename>")
-@login_required
 def download_sensor_logs(filename):
     return send_from_directory(f"{log_path}/logs/sensor", filename, as_attachment=True)
 
 @app.route("/operation_logs/<path:filename>")
-@login_required
 def download_operation_logs(filename):
     return send_from_directory(
         f"{log_path}/logs/operation", filename, as_attachment=True
     )
 
 @app.route("/operation_logs_restapi/<path:filename>")
-@login_required
 def download_operation_logs_restapi(filename):
     return send_from_directory(
         f"{snmp_path}/RestAPI/logs/operation", filename, as_attachment=True
     )
 
 @app.route("/error_logs/<path:filename>")
-@login_required
 def download_error_logs(filename):
     return send_from_directory(f"{log_path}/logs/error", filename, as_attachment=True)
 
 
 @app.route("/logout")
-@login_required
 def logout():
     return_to_manual_when_logout()
 
@@ -5205,7 +5326,6 @@ def logout():
     return redirect("/")
 
 @app.route("/get_data")
-@login_required
 def get_data():
     keys_list = list(sensorData["value"].keys())
 
@@ -5219,8 +5339,23 @@ def get_data():
 
 
 @app.route("/get_data_engineerMode")
-@login_required
 def get_data_engineerMode():
+    global DEMO_MODE
+    if DEMO_MODE:
+        return jsonify(
+            {
+                "sensor_adjust": sensor_adjust,
+                "thrshd": thrshd,
+                "pid_pressure": pid_setting["pressure"],
+                "pid_temp": pid_setting["temperature"],
+                "inspection_time": inspection_time,
+                "auto_setting": auto_setting,
+                "visibility": ctr_data["rack_visibility"],
+                "valve": valve_setting,
+                "ver_switch": ver_switch,
+            }
+        )
+
     read_data["engineerMode"] = True
     timeout = get_data_timeout
     start_time = time.time()
@@ -5246,8 +5381,11 @@ def get_data_engineerMode():
 
 
 @app.route("/get_data_control")
-@login_required
 def get_data_control():
+    global DEMO_MODE
+    if DEMO_MODE:
+        return jsonify(ctr_data)
+
     read_data["control"] = True
     timeout = get_data_timeout
     start_time = time.time()
@@ -5261,8 +5399,16 @@ def get_data_control():
 
 
 @app.route("/get_data_systemset")
-@login_required
 def get_data_systemset():
+    global DEMO_MODE
+    if DEMO_MODE:
+        return jsonify(
+            {
+                "system_data": system_data,
+                "sampling_rate": sampling_rate,
+            }
+        )
+
     read_data["systemset"] = True
     timeout = get_data_timeout
     start_time = time.time()
@@ -5281,12 +5427,10 @@ def get_data_systemset():
 
 
 @app.route("/get_data_version")
-@login_required
 def get_data_version():
     return jsonify(ver_switch)
 
 @app.route("/set_operation_mode", methods=["POST"])
-@login_required
 def set_operation_mode():
     data = request.json
     value_to_write = data.get("value")
@@ -5633,7 +5777,6 @@ def set_operation_mode():
 
 
 @app.route("/control/auto_mode_set_aply", methods=["POST"])
-@login_required
 def auto_mode_setting():
     data = request.json
     temperature = data.get("temperature")
@@ -5678,7 +5821,6 @@ def auto_mode_setting():
 
 
 @app.route("/control/auto_mode_set_cnsl")
-@login_required
 def ctr_alt_mod_cnsl():
     try:
         with ModbusTcpClient(
@@ -5716,7 +5858,6 @@ def ctr_alt_mod_cnsl():
 
 
 @app.route("/pump_speed_setting", methods=["POST"])
-@login_required
 def pump_speed_setting():
     data = request.json
 
@@ -5816,7 +5957,6 @@ def pump_speed_setting():
 
 
 @app.route("/control/ctr_pump_cnsl")
-@login_required
 def ctr_pump_cnsl():
     try:
         with ModbusTcpClient(
@@ -5856,7 +5996,6 @@ def ctr_pump_cnsl():
 
 
 @app.route("/waterPV_setting", methods=["POST"])
-@login_required
 def waterPV_setting():
     data = request.json
     water_PV = data.get("water_PV")
@@ -5882,7 +6021,6 @@ def waterPV_setting():
 
 
 @app.route("/control/ctr_waterPV_cnsl")
-@login_required
 def ctr_waterPV_cnsl():
     try:
         with ModbusTcpClient(
@@ -5902,7 +6040,6 @@ def ctr_waterPV_cnsl():
 
 
 @app.route("/filter_time_setting", methods=["POST"])
-@login_required
 def filter_time_setting():
     data = request.json
     filter_interval = data.get("filter_interval")
@@ -5933,7 +6070,6 @@ def filter_time_setting():
 
 
 @app.route("/mc_setting", methods=["POST"])
-@login_required
 def mc_setting():
     data = request.get_json()
 
@@ -5987,7 +6123,6 @@ def mc_setting():
 
 
 @app.route("/close_valve_stop", methods=["POST"])
-@login_required
 def close_valve_stop():
     data = request.json
     value_to_write = data.get("close_valve")
@@ -6007,7 +6142,6 @@ def close_valve_stop():
 
 
 @app.route("/read_close_valve_stop", methods=["GET"])
-@login_required
 def read_close_valve_stop():
     try:
         with ModbusTcpClient(
@@ -6022,7 +6156,6 @@ def read_close_valve_stop():
 
 
 @app.route("/thrshd_set", methods=["POST"])
-@login_required
 def thrshd_set():
     data = request.get_json()
 
@@ -6079,7 +6212,6 @@ def thrshd_set():
 
 
 @app.route("/writeSensorAdjust", methods=["POST"])
-@login_required
 def writeSensorAdjust():
     data = request.get_json()
 
@@ -6106,7 +6238,6 @@ def writeSensorAdjust():
 
 
 @app.route("/systemSetting/unit_set", methods=["POST"])
-@login_required
 def unit_set():
     data = request.json
     value_to_write = data.get("value")
@@ -6131,7 +6262,6 @@ def unit_set():
 
 
 @app.route("/systemSetting/unit_cancel", methods=["GET"])
-@login_required
 def unit_cancel():
     try:
         with ModbusTcpClient(
@@ -6154,7 +6284,6 @@ def unit_cancel():
 
 
 @app.route("/update_password", methods=["POST"])
-@login_required
 def update_password():
     pwd_package = request.get_json().get("pwd_package")
 
@@ -6192,7 +6321,6 @@ def update_password():
 
 
 @app.route("/reset_password", methods=["POST"])
-@login_required
 def reset_password():
     USER_DATA["user"] = "0000"
 
@@ -6209,7 +6337,6 @@ def get_modbus_ip():
 
 
 @app.route("/update_modbus_ip", methods=["POST"])
-@login_required
 def update_modbus_ip():
     new_ip = request.json.get("modbus_ip")
     if not new_ip:
@@ -6228,7 +6355,6 @@ def update_modbus_ip():
 
 
 @app.route("/write_version", methods=["POST"])
-@login_required
 def write_version():
     data = request.json
 
@@ -6248,13 +6374,16 @@ def write_version():
 
 
 @app.route("/read_version", methods=["GET"])
-@login_required
 def read_version():
     if not os.path.exists(f"{web_path}/fw_info.json"):
         with open(f"{web_path}/fw_info.json", "w") as file:
             file.write("")
     with open(f"{web_path}/fw_info.json", "r") as file:
         FW_Info = json.load(file)
+
+    global DEMO_MODE
+    if DEMO_MODE:
+        return jsonify({"FW_Info": FW_Info, "plc_version": "Demo-v1.0"})
 
     try:
         with ModbusTcpClient(
@@ -6438,7 +6567,6 @@ def set_timeout():
 
 
 @app.route("/get_network_info", methods=["GET"])
-@login_required
 def get_network_info():
     json_formatted_string = []
 
@@ -6462,7 +6590,6 @@ def get_network_info():
 
 
 @app.route("/set_network", methods=["POST"])
-@login_required
 def set_network():
     if not onLinux:
         return jsonify({"status": "error", "message": "Not supported on Windows"}), 501
@@ -6687,7 +6814,6 @@ def set_network():
 
 
 @app.route("/v6set_network", methods=["POST"])
-@login_required
 def v6set_network():
     if not onLinux:
         return jsonify({"status": "error", "message": "Not supported on Windows"}), 501
@@ -6876,7 +7002,6 @@ def v6set_network():
 
 
 @app.route("/export_settings", methods=["POST"])
-@login_required
 def export_settings():
     data = request.json
 
@@ -7032,7 +7157,6 @@ def export_settings():
 
 
 @app.route("/import_settings", methods=["POST"])
-@login_required
 def import_settings():
     uploaded_file = request.files["file"]
 
@@ -7142,7 +7266,6 @@ def import_settings():
 
 
 @app.route("/reboot", methods=["GET"])
-@login_required
 def restart():
     subprocess.run(
         ["sudo", "reboot"], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
@@ -7151,7 +7274,6 @@ def restart():
 
 
 @app.route("/shutdown", methods=["GET"])
-@login_required
 def shutdown():
     subprocess.run(
         ["sudo", "shutdown", "now"],
@@ -7163,7 +7285,6 @@ def shutdown():
 
 
 @app.route("/upload_zip", methods=["GET", "POST"])
-@login_required
 def upload_zip():
     if request.method == "POST":
         if "file" not in request.files:
@@ -7294,7 +7415,6 @@ def upload_zip():
 
 
 @app.route("/store_sampling_rate", methods=["POST"])
-@login_required
 def store_sampling_rate():
     try:
         data = request.json
@@ -7311,7 +7431,6 @@ def store_sampling_rate():
 
 
 @app.route("/Pump1reset", methods=["POST"])
-@login_required
 def Pump1reset():
     try:
         with ModbusTcpClient(
@@ -7329,7 +7448,6 @@ def Pump1reset():
 
 
 @app.route("/Pump2reset", methods=["POST"])
-@login_required
 def Pump2reset():
     try:
         with ModbusTcpClient(
@@ -7346,7 +7464,6 @@ def Pump2reset():
 
 
 @app.route("/filter_reset", methods=["POST"])
-@login_required
 def filter_reset():
     data = request.json
     index = data.get("index")
@@ -7367,7 +7484,6 @@ def filter_reset():
 
 
 @app.route("/store_pid", methods=["POST"])
-@login_required
 def store_pid_temp():
     data = request.json
     registers = []
@@ -7418,7 +7534,6 @@ def store_pid_temp():
 
 
 @app.route("/collapse_network", methods=["POST"])
-@login_required
 def collapse_network():
     data = request.get_json()
 
@@ -7431,7 +7546,6 @@ def collapse_network():
 
 
 @app.route("/check_network", methods=["GET"])
-@login_required
 def check_network():
     global collapse_state
 
@@ -7439,7 +7553,6 @@ def check_network():
 
 
 @app.route("/store_snmp_setting", methods=["POST"])
-@login_required
 def store_snmp_setting():
     data = request.get_json()
 
@@ -7456,7 +7569,6 @@ def store_snmp_setting():
 
 
 @app.route("/get_snmp_setting", methods=["GET"])
-@login_required
 def get_snmp_setting():
     with open(f"{snmp_path}/snmp/snmp.json", "r") as json_file:
         data = json.load(json_file)
@@ -7470,7 +7582,6 @@ def get_snmp_setting():
 
 
 @app.route("/get_error_data", methods=["GET"])
-@login_required
 def get_error_data():
     global error_data
 
@@ -7480,7 +7591,6 @@ def get_error_data():
 
 
 @app.route("/get_inspection_result")
-@login_required
 def get_inspection_result():
     try:
         with ModbusTcpClient(

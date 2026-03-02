@@ -117,6 +117,28 @@ const fetchData = async () => {
     }
 }
 
+// --- Demo Global Toggle ---
+const isTestMode = ref(false)
+
+const checkTestMode = async () => {
+    try {
+        const res = await axios.get('/api/demo_mode_status')
+        isTestMode.value = res.data.demo_mode
+    } catch (err) { }
+}
+
+const toggleTestMode = async () => {
+    try {
+        const payload = { demo_mode: !isTestMode.value }
+        const res = await axios.post('/api/toggle_demo_mode', payload)
+        if (res.data.success) {
+            isTestMode.value = res.data.demo_mode
+        }
+    } catch (err) {
+        console.error("Failed to toggle global demo mode", err)
+    }
+}
+
 // --- Actions ---
 const saveAdjust = async () => {
     try {
@@ -196,7 +218,8 @@ const toggleSection = (section) => {
 const getAdjustValue = (id, type) => adjustData.value[`${id}_${type}`] || 0
 const updateAdjustValue = (id, type, val) => adjustData.value[`${id}_${type}`] = parseFloat(val)
 
-onMounted(() => {
+onMounted(async () => {
+    await checkTestMode()
     fetchData()
 })
 </script>
@@ -215,7 +238,12 @@ onMounted(() => {
                     ADVANCED CONFIGURATION ACCESS
                 </p>
             </div>
-            <div>
+            <div class="flex items-center space-x-4">
+                <button @click="toggleTestMode" 
+                        class="px-3 py-1 border text-xs rounded transition-all tracking-widest uppercase font-bold shadow-lg flex items-center"
+                        :class="isTestMode ? 'bg-yellow-500 text-black border-yellow-400 shadow-yellow-500/50 hover:bg-yellow-400' : 'bg-transparent text-gray-500 border-gray-600 hover:text-gray-300 hover:border-gray-400'">
+                    Test Mode: <span class="ml-1" :class="isTestMode ? 'text-black' : 'text-gray-400'">{{ isTestMode ? 'ON' : 'OFF' }}</span>
+                </button>
                 <button @click="fetchData" class="px-3 py-1 bg-cyan-900/40 hover:bg-cyan-800 border border-cyan-500/50 hover:border-cyan-400 text-cyan-300 text-xs rounded transition-all uppercase tracking-widest flex items-center">
                     <span class="mr-2">↻</span> Reload Data
                 </button>

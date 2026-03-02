@@ -1,9 +1,10 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
 import axios from 'axios'
-import { FunnelIcon, TrashIcon, MagnifyingGlassIcon, ChevronLeftIcon, ChevronRightIcon, ArrowPathIcon } from '@heroicons/vue/24/solid'
+import { FunnelIcon, TrashIcon, MagnifyingGlassIcon, ChevronLeftIcon, ChevronRightIcon, ArrowPathIcon, BeakerIcon, SignalIcon } from '@heroicons/vue/24/solid'
 
 // State
+const isTestMode = ref(false)
 const activeTab = ref('all') // 'all' or 'shutdown'
 const allLogs = ref([])
 const shutdownLogs = ref([])
@@ -191,25 +192,31 @@ const toggleSelectAll = (checked) => {
     else selectedShutdown.value = selection
 }
 
-onMounted(() => {
+const checkTestMode = async () => {
+    try {
+        const res = await axios.get('/api/demo_mode_status')
+        isTestMode.value = res.data.demo_mode
+    } catch (err) { }
+}
+
+const toggleTestMode = async () => {
+    try {
+        const payload = { demo_mode: !isTestMode.value }
+        const res = await axios.post('/api/toggle_demo_mode', payload)
+        if (res.data.success) {
+            isTestMode.value = res.data.demo_mode
+        }
+    } catch (err) { }
+}
+
+onMounted(async () => {
+    await checkTestMode()
     fetchLogs('all', 1)
     // Periodic refresh every 5s
     setInterval(() => {
         if (!loading.value) refreshCurrent(true)
     }, 5000)
 })
-
-const generateTestLogs = async () => {
-    loading.value = true
-    try {
-        await axios.post('/api/generate_test_logs')
-        setTimeout(() => refreshCurrent(), 500) // Small delay to let backend write file
-    } catch (error) {
-        console.error('Error generating test logs:', error)
-    } finally {
-        loading.value = false
-    }
-}
 </script>
 
 <template>
@@ -264,9 +271,11 @@ const generateTestLogs = async () => {
                 </div>
 
                 <div class="flex items-center space-x-3">
-                    <button @click="generateTestLogs" 
-                            class="px-4 py-2 bg-cyan-900/30 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-900/60 hover:text-cyan-300 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center transition-all shadow-sm">
-                        Test Log
+                    <button type="button" @click="toggleTestMode" 
+                            :class="isTestMode ? 'border-yellow-500 text-yellow-500 bg-yellow-900/20 shadow-lg shadow-yellow-500/20' : 'border-gray-600 text-gray-400 hover:text-gray-300 hover:border-gray-400'"
+                            class="px-4 py-2 border rounded-lg text-xs font-bold uppercase tracking-widest transition-all flex items-center shadow-sm">
+                        <component :is="isTestMode ? BeakerIcon : SignalIcon" class="w-4 h-4 mr-2" />
+                        TEST MODE: <span class="ml-1" :class="isTestMode ? 'text-yellow-400' : 'text-gray-500'">{{ isTestMode ? 'ON' : 'OFF' }}</span>
                     </button>
                     <button @click="deleteSelected" 
                             class="px-4 py-2 bg-red-900/30 border border-red-500/50 text-red-400 hover:bg-red-900/60 hover:text-red-300 rounded-lg text-xs font-bold uppercase tracking-widest flex items-center transition-all shadow-sm">

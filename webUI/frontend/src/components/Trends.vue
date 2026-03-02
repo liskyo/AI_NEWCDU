@@ -4,7 +4,7 @@ import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { ArrowPathIcon, PlayIcon, PauseIcon, PresentationChartLineIcon, BeakerIcon, SignalIcon } from '@heroicons/vue/24/solid'
 
 // State
-const isSimMode = ref(false) // Toggle between Real API and Local Sim
+const isTestMode = ref(false) // Toggle global demo mode
 const isPaused = ref(false)
 const updateInterval = ref(null)
 const selectedMetric = ref('temp') // 'temp', 'pressure', 'flow'
@@ -14,32 +14,32 @@ const timeRange = ref('1h') // '1h', '24h' (simulated)
 const historyData = ref([])
 const maxPoints = 60
 
-// Simulated Data Generator (Sine Wave for Test)
-const generateNextPoint = () => {
-    const now = new Date()
-    const t = now.getTime()
-    
-    // Smooth Sine Waves for Sim Mode
-    const baseTemp = 25 + Math.sin(t / 2000) * 5 // Faster oscillation
-    const basePressure = 2.5 + Math.cos(t / 2000) * 1.0
-    const baseFlow = 45 + Math.sin(t / 1500) * 10
+// Demo Global Toggle Sync
+const checkTestMode = async () => {
+    try {
+        const res = await axios.get('/api/demo_mode_status')
+        isTestMode.value = res.data.demo_mode
+    } catch (err) { }
+}
 
-    return {
-        timestamp: t,
-        timeLabel: now.toLocaleTimeString(),
-        temp_in: baseTemp + (Math.random() - 0.5),
-        temp_out: baseTemp + 5 + (Math.random() - 0.5),
-        pressure_in: basePressure + (Math.random() * 0.1),
-        pressure_out: basePressure - 0.5 + (Math.random() * 0.1),
-        flow: baseFlow + (Math.random())
+const toggleTestMode = async () => {
+    try {
+        const payload = { demo_mode: !isTestMode.value }
+        const res = await axios.post('/api/toggle_demo_mode', payload)
+        if (res.data.success) {
+            isTestMode.value = res.data.demo_mode
+            historyData.value = [] // clear history on switch for clean graph
+        }
+    } catch (err) {
+        console.error("Failed to toggle global demo mode", err)
     }
 }
 
 // Real Data Fetcher
 const fetchRealData = async () => {
     try {
-        // Attempt to fetch from Engineer Mode endpoint or Status logic
-        const response = await axios.get('/get_data_engineerMode') // Using standard endpoint
+        // Fetch from the correct global status endpoint
+        const response = await axios.get('/api/status')
         const val = response.data?.value || {}
         
         // Map backend keys to our chart keys
@@ -143,23 +143,12 @@ const setMetric = (metric) => {
 }
 
 const updateChart = async () => {
-    let newPoint
-    if (isSimMode.value) {
-        newPoint = generateNextPoint()
-    } else {
-        newPoint = await fetchRealData()
-    }
+    let newPoint = await fetchRealData()
     
     historyData.value.push(newPoint)
     if (historyData.value.length > maxPoints) {
         historyData.value.shift()
     }
-}
-
-const toggleSource = () => {
-    isSimMode.value = !isSimMode.value
-    // Reset history when switching modes to avoid jumpy graphs
-    historyData.value = [] 
 }
 
 const togglePause = () => {
@@ -177,8 +166,8 @@ const stopUpdates = () => {
     if (updateInterval.value) clearInterval(updateInterval.value)
 }
 
-onMounted(() => {
-    // initHistory() // Removed as history is now dynamically populated
+onMounted(async () => {
+    await checkTestMode()
     startUpdates()
 })
 
@@ -215,11 +204,11 @@ onUnmounted(() => {
                     <!-- Controls -->
                     <div class="flex items-center space-x-3">
                          <!-- Source Toggle -->
-                        <button type="button" @click="toggleSource" 
-                                :class="isSimMode ? 'border-yellow-500 text-yellow-500 bg-yellow-900/10' : 'border-green-500 text-green-500 bg-green-900/10'"
+                        <button type="button" @click="toggleTestMode" 
+                                :class="isTestMode ? 'border-yellow-500 text-yellow-500 bg-yellow-900/20 shadow-lg shadow-yellow-500/20' : 'border-gray-600 text-gray-400 hover:text-gray-300 hover:border-gray-400'"
                                 class="flex items-center px-4 py-2 border rounded text-xs font-bold uppercase tracking-wider transition-all hover:bg-gray-800 z-50 relative">
-                            <component :is="isSimMode ? BeakerIcon : SignalIcon" class="w-4 h-4 mr-2" />
-                            {{ isSimMode ? 'TEST SIM' : 'LIVE DATA' }}
+                            <component :is="isTestMode ? BeakerIcon : SignalIcon" class="w-4 h-4 mr-2" />
+                            TEST MODE: <span class="ml-1" :class="isTestMode ? 'text-yellow-400' : 'text-gray-500'">{{ isTestMode ? 'ON' : 'OFF' }}</span>
                         </button>
 
                          <!-- Pause Toggle -->
