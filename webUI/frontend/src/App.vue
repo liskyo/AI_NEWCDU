@@ -139,7 +139,7 @@ onUnmounted(() => {
         <!-- Logo / Title -->
         <div class="flex items-center space-x-3">
            <img src="/favicon.png" alt="Logo" class="h-8 w-8" />
-           <span class="text-xl font-bold tracking-wide">Guchii CDU Control</span>
+           <span class="text-xl font-bold tracking-wide">CDU Control</span>
         </div>
         
         <!-- Navigation Links -->

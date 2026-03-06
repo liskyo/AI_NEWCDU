@@ -1,5 +1,35 @@
 [
     {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-03-06 15:52:09",
+        "off_time": null,
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_Leakage_Detected",
+        "on_time": "2026-03-06 15:51:39",
+        "off_time": "2026-03-06 15:51:54",
+        "signal_value": "Fluid Leakage Detected in Cabinet (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-03-06 15:51:09",
+        "off_time": "2026-03-06 15:51:24",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-03-06 15:50:39",
+        "off_time": "2026-03-06 15:50:54",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-03-06 15:50:09",
+        "off_time": "2026-03-06 15:50:24",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
         "signal_name": "M351",
         "on_time": "2026-03-06 15:44:08",
         "off_time": null,
