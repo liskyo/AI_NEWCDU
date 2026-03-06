@@ -134,7 +134,7 @@ const sections = [
     // Environment
     { label: 'Environment', x: 80, y: 3, w: 13, h: 24 },
     // Tank 1
-    { label: 'Tank 1', x: 28, y: 6, w: 25, h: 26 },
+    { label: 'CDU', x: 28, y: 6, w: 25, h: 26 },
     // Water Quality
     { label: 'Water Quality', x: 57.6, y: 14, w: 17, h: 12.5 },
 ]
