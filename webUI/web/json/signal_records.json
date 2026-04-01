@@ -2,7 +2,7 @@
     {
         "signal_name": "M2_Emergency_Stop",
         "on_time": "2026-04-01 09:33:57",
-        "off_time": null,
+        "off_time": "2026-04-01 09:34:12",
         "signal_value": "Emergency Stop Triggered (TEST SIM)"
     },
     {
