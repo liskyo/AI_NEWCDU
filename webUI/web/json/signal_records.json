@@ -1,5 +1,95 @@
 [
     {
+        "signal_name": "M2_Emergency_Stop",
+        "on_time": "2026-04-01 09:33:57",
+        "off_time": null,
+        "signal_value": "Emergency Stop Triggered (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-04-01 09:33:27",
+        "off_time": "2026-04-01 09:33:42",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-04-01 09:32:57",
+        "off_time": "2026-04-01 09:33:12",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_Pressure_High",
+        "on_time": "2026-04-01 09:32:27",
+        "off_time": "2026-04-01 09:32:42",
+        "signal_value": "System Pressure Abnormal (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-04-01 09:31:57",
+        "off_time": "2026-04-01 09:32:12",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-04-01 09:31:27",
+        "off_time": "2026-04-01 09:31:42",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Emergency_Stop",
+        "on_time": "2026-04-01 09:30:57",
+        "off_time": "2026-04-01 09:31:12",
+        "signal_value": "Emergency Stop Triggered (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-04-01 09:30:27",
+        "off_time": "2026-04-01 09:30:42",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-04-01 09:29:57",
+        "off_time": "2026-04-01 09:30:12",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-04-01 09:29:27",
+        "off_time": "2026-04-01 09:29:42",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Emergency_Stop",
+        "on_time": "2026-04-01 09:28:56",
+        "off_time": "2026-04-01 09:29:11",
+        "signal_value": "Emergency Stop Triggered (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-04-01 09:28:26",
+        "off_time": "2026-04-01 09:28:41",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_CoolantTemp_High",
+        "on_time": "2026-04-01 09:27:56",
+        "off_time": "2026-04-01 09:28:11",
+        "signal_value": "Coolant Temperature above 50\u00b0C (TEST SIM)"
+    },
+    {
+        "signal_name": "M3_Leakage_Detected",
+        "on_time": "2026-04-01 09:27:26",
+        "off_time": "2026-04-01 09:27:41",
+        "signal_value": "Fluid Leakage Detected in Cabinet (TEST SIM)"
+    },
+    {
+        "signal_name": "M2_Pump_Fail",
+        "on_time": "2026-04-01 09:26:56",
+        "off_time": "2026-04-01 09:27:11",
+        "signal_value": "Pump 1 failed to start (TEST SIM)"
+    },
+    {
         "signal_name": "M351",
         "on_time": "2026-04-01 09:25:24",
         "off_time": null,
