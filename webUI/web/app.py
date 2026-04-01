@@ -8388,4 +8388,4 @@ modbus_thread.start()
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5501, debug=True, use_reloader=repeat)
+    app.run(host="0.0.0.0", port=5588, debug=True, use_reloader=repeat)
